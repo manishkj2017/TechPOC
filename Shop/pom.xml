@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>mkj.tech.learning</groupId>
+  <artifactId>Shop</artifactId>
+  <version>1.0</version>
+  <packaging>pom</packaging>
+  <name>Shop</name>
+  <description>POC</description>
+  
+  <properties>
+  	<spring-version>4.3.7.RELEASE</spring-version>
+  </properties>
+  <modules>
+  	<module>ShopCore</module>
+  	<module>ShopServer</module>
+  </modules>
+  
+  <dependencies>
+  	<!-- Spring -->
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-jdbc</artifactId>
+  		<version>${spring-version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-orm</artifactId>
+  		<version>${spring-version}</version>
+  	</dependency>
+  	
+  	<!-- hibernate jpa -->
+  	<dependency>
+  		<groupId>org.hibernate</groupId>
+  		<artifactId>hibernate-entitymanager</artifactId>
+  		<version>4.1.9.Final</version>
+  	</dependency>
+  	
+  	<!-- log4j -->
+  	<dependency>
+  		<groupId>log4j</groupId>
+  		<artifactId>log4j</artifactId>
+  		<version>1.2.17</version>
+  	</dependency>
+  	
+  	<!-- Active MQ - JMS broker -->
+  	<dependency>
+  		<groupId>org.apache.activemq</groupId>
+  		<artifactId>activemq-all</artifactId>
+  		<version>5.14.4</version>
+  	</dependency>
+  	
+  	<!-- H2 DB -->
+  	<dependency>
+  		<groupId>com.h2database</groupId>
+  		<artifactId>h2</artifactId>
+  		<version>1.4.190</version>
+  	</dependency>
+  	
+  </dependencies>
+</project>
