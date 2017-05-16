@@ -14,6 +14,16 @@ public class SystemProperties {
 	private static final String PetStorePath = "PetStore";
 	private static final String PetOrdeFile = "PetOrderFile";
 	private static final String PetSaleFile = "PetSaleFile";
+	private static final String PetInventoryFile = "PetInventoryFile";
+	private static final String PetMaxInventorySize = "PetMaxInventorySize";
+	private static final String RMIPort = "RMIPort";
+	private static final String WEBPort = "WEBPort";
+	private static final String ShopRMIName = "ShopRMIName";
+	private static final String PetWebServiceURL = "PetWebServiceURL";
+	private static final String ShopCloseWebServiceURL = "ShopCloseWebServiceURL";
+	private static final String MaxBidPriceOffset = "MaxBidPriceOffset";
+	private static final String MaxCustomers = "MaxCustomers";
+	
 	
 	public SystemProperties(){
 		loadProperties();
@@ -44,5 +54,39 @@ public class SystemProperties {
 	
 	public String getPetSaleFileName(){
 		return props.getProperty(PetSaleFile);
+	}
+	
+	public String getPetInventoryFileName(){
+		return props.getProperty(PetInventoryFile);
+	}
+	
+	public int getPetMaxInventorySize(){
+		return Integer.valueOf(props.getProperty(PetMaxInventorySize));
+	}
+	
+	public int getRMIPort(){
+		return Integer.valueOf(props.getProperty(RMIPort));
+	}
+	
+	public int getWEBPort(){
+		return Integer.valueOf(props.getProperty(WEBPort));
+	}
+	
+	public String getShopRMIName(){
+		return props.getProperty(ShopRMIName);
+	}
+	public String getPetWebServiceURL(){
+		return props.getProperty(PetWebServiceURL);
+	}
+	public String getShopCloseWebServiceURL(){
+		return props.getProperty(ShopCloseWebServiceURL);
+	}
+	
+	public int getMaxBidPriceOffset(){
+		return Integer.valueOf(props.getProperty(MaxBidPriceOffset));
+	}
+	
+	public int getMaxCustomers(){
+		return Integer.valueOf(props.getProperty(MaxCustomers));
 	}
 }

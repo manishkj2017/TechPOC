@@ -19,8 +19,8 @@ public class ServiceManager {
 	
 	private PetDBInterface dao;
 	
-	private Thread updateSaleThread;
-	private Thread updateOrderThread;
+	private Thread saleWriter;
+	private Thread orderWriter;
 	
 	public PetService getPetService() {
 		return petService;
@@ -63,23 +63,23 @@ public class ServiceManager {
 	public void setDao(PetDBInterface dao) {
 		this.dao = dao;
 	}
-	
-	public Thread getUpdateSaleThread() {
-		return updateSaleThread;
+
+	public Thread getOrderWriter() {
+		return orderWriter;
 	}
-	
-	@Autowired
-	public void setUpdateSaleThread(Thread updateSaleThread) {
-		this.updateSaleThread = updateSaleThread;
+
+	//@Autowired
+	public void setOrderWriter(Thread orderWriter) {
+		this.orderWriter = orderWriter;
 	}
-	
-	public Thread getUpdateOrderThread() {
-		return updateOrderThread;
+
+	public Thread getSaleWriter() {
+		return saleWriter;
 	}
-	
-	@Autowired
-	public void setUpdateOrderThread(Thread updateOrderThread) {
-		this.updateOrderThread = updateOrderThread;
+
+	//@Autowired
+	public void setSaleWriter(Thread saleWriter) {
+		this.saleWriter = saleWriter;
 	}
 	
 	

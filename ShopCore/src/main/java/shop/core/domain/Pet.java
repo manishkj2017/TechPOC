@@ -24,10 +24,9 @@ public class Pet implements Serializable, Comparable<Pet>{
 	private int id;
 	private String name;
 	private BigDecimal price;
-	private PetTypes type;
 	private int tag;
 	private int orderNumber;
-	private BigDecimal askPrice;
+	
 	private int customerNumber;
 	
 	public int getId() {
@@ -53,15 +52,7 @@ public class Pet implements Serializable, Comparable<Pet>{
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
-
-	public PetTypes getType() {
-		return type;
-	}
-
-	public void setType(PetTypes type) {
-		this.type = type;
-	}
-
+	
 	public int getTag() {
 		return tag;
 	}
@@ -76,14 +67,6 @@ public class Pet implements Serializable, Comparable<Pet>{
 
 	public void setOrderNumber(int orderNumber) {
 		this.orderNumber = orderNumber;
-	}
-
-	public BigDecimal getAskPrice() {
-		return askPrice;
-	}
-
-	public void setAskPrice(BigDecimal askPrice) {
-		this.askPrice = askPrice;
 	}
 
 	public int getCustomerNumber() {
@@ -114,15 +97,12 @@ public class Pet implements Serializable, Comparable<Pet>{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((askPrice == null) ? 0 : askPrice.hashCode());
 		result = prime * result + customerNumber;
 		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + orderNumber;
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + tag;
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -135,11 +115,6 @@ public class Pet implements Serializable, Comparable<Pet>{
 		if (getClass() != obj.getClass())
 			return false;
 		Pet other = (Pet) obj;
-		if (askPrice == null) {
-			if (other.askPrice != null)
-				return false;
-		} else if (!askPrice.equals(other.askPrice))
-			return false;
 		if (customerNumber != other.customerNumber)
 			return false;
 		if (id != other.id)
@@ -158,18 +133,16 @@ public class Pet implements Serializable, Comparable<Pet>{
 			return false;
 		if (tag != other.tag)
 			return false;
-		if (type != other.type)
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "Pet [id=" + id + ", name=" + name + ", price=" + price
-				+ ", type=" + type + ", tag=" + tag + ", orderNumber="
-				+ orderNumber + ", askPrice=" + askPrice + ", customerNumber="
-				+ customerNumber + "]";
+				+ ", tag=" + tag + ", orderNumber=" + orderNumber
+				+ ", customerNumber=" + customerNumber + "]";
 	}
+
 	
 	
 	

@@ -9,14 +9,31 @@
   
   <properties>
   	<spring-version>4.3.7.RELEASE</spring-version>
+  	<cxf-version>3.1.11</cxf-version>
+  	<jetty-version>9.0.0.M3</jetty-version>
   </properties>
+  
   <modules>
   	<module>ShopCore</module>
   	<module>ShopServer</module>
+  	<module>ShopClient</module>
   </modules>
   
   <dependencies>
   	<!-- Spring -->
+  	
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-context</artifactId>
+  		<version>${spring-version}</version>
+  	</dependency>
+  	
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-web</artifactId>
+  		<version>${spring-version}</version>
+  	</dependency>
+  	
   	<dependency>
   		<groupId>org.springframework</groupId>
   		<artifactId>spring-jdbc</artifactId>
@@ -42,18 +59,66 @@
   		<version>1.2.17</version>
   	</dependency>
   	
-  	<!-- Active MQ - JMS broker -->
+  	<!-- Active MQ - Embedded JMS broker -->
   	<dependency>
   		<groupId>org.apache.activemq</groupId>
   		<artifactId>activemq-all</artifactId>
   		<version>5.14.4</version>
   	</dependency>
   	
-  	<!-- H2 DB -->
+  	<!-- H2 DB - in memory DB -->
   	<dependency>
   		<groupId>com.h2database</groupId>
   		<artifactId>h2</artifactId>
   		<version>1.4.190</version>
+  	</dependency>
+  	
+  	<!-- JSON Transformation -->
+  	<dependency>
+  		<groupId>com.fasterxml.jackson.core</groupId>
+  		<artifactId>jackson-databind</artifactId>
+  		<version>2.6.3</version>
+  	</dependency>
+  	
+  	<!-- JSON provider for REST calls -->
+  	<dependency>
+  		<groupId>org.codehaus.jackson</groupId>
+  		<artifactId>jackson-jaxrs</artifactId>
+  		<version>1.9.13</version>
+  	</dependency>
+  	
+  	<!-- CXF - web service provider (implementation of JAX-RS specifications)-->
+  	<dependency>
+  		<groupId>org.apache.cxf</groupId>
+  		<artifactId>cxf-rt-transports-http</artifactId>
+  		<version>${cxf-version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.cxf</groupId>
+  		<artifactId>cxf-rt-frontend-jaxrs</artifactId>
+  		<version>${cxf-version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.cxf</groupId>
+  		<artifactId>cxf-rt-rs-client</artifactId>
+  		<version>${cxf-version}</version>
+  	</dependency>
+  	
+  	<!-- Jetty - Embedded web server -->
+  	<dependency>
+  		<groupId>org.eclipse.jetty</groupId>
+  		<artifactId>jetty-server</artifactId>
+  		<version>${jetty-version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.eclipse.jetty</groupId>
+  		<artifactId>jetty-servlet</artifactId>
+  		<version>${jetty-version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.eclipse.jetty</groupId>
+  		<artifactId>jetty-http</artifactId>
+  		<version>${jetty-version}</version>
   	</dependency>
   	
   </dependencies>

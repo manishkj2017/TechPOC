@@ -24,7 +24,7 @@ public class OrderWriter implements Runnable{
 	public void run() {
 		System.out.println("starting order update thread..");
 		try(OutputStreamWriter out = new OutputStreamWriter(new BufferedOutputStream(
-				new FileOutputStream(Shop.getProperties().getPetStorePath()+Shop.getProperties().getPetOrderFileName())))){
+				new FileOutputStream(Shop.getProperties().getPetStorePath()+"/"+Shop.getProperties().getPetOrderFileName())))){
 			
 			out.write(buildHeader());
 			while (true){
@@ -32,7 +32,6 @@ public class OrderWriter implements Runnable{
 				if(order == null && !getServiceManager().getInventoryService().isAnyStockAvailable()){
 					System.out.println("Exiting order updater");
 					out.flush();
-					getServiceManager().getOrderService().printOrderSummary();
 					return;
 				}
 				

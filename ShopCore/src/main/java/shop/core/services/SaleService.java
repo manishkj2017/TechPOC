@@ -7,6 +7,6 @@ import shop.core.domain.Pet;
 public interface SaleService {
 	public void updateSale(Pet pet);
 	public LinkedBlockingQueue<Pet> returnSaleData();
-	public void printInventory();
+	public void printSaleSummary();
 	public Pet getPetByTag(int tag);
 }

@@ -1,6 +1,9 @@
 package shop.core.enums;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public enum PetTypes {
 	
@@ -44,6 +47,14 @@ public enum PetTypes {
 				return type;
 		}
 		return null;
+	}
+	
+	public static int getMaxSellingPrice(){
+		Set <Integer> petPrices = new HashSet <Integer> ();
+		for(PetTypes type: PetTypes.values()){
+			petPrices.add(type.getPrice().intValue());
+		}
+		return Collections.max(petPrices);
 	}
 	
 }

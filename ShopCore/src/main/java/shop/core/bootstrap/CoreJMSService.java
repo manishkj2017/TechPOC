@@ -17,7 +17,7 @@ public class CoreJMSService {
 	public static final String JMSBuyTopic = "PET_BUY";
 	public static final String JMSShopMonTopic = "PET_SHOP_MON";
 	
-	public static final boolean isShopClosed = false;
+	public static boolean isShopClosed = false;
 	
 	
 	
@@ -51,7 +51,7 @@ public class CoreJMSService {
 		
 	}
 	
-	public static void intJMS(MessageTransformer transformer) throws JMSException{
+	public static void initJMS(MessageTransformer transformer) throws JMSException{
 		if(session == null){
 			System.out.println("initializing JMS...");
 			initFactory(transformer);

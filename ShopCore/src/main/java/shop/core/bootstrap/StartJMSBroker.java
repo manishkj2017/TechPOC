@@ -19,6 +19,7 @@ public class StartJMSBroker {
 				if(!isShop){
 					System.out.println("shop is open..");
 				}
+				return;
 			}else{
 				if(!isShop){
 					System.out.println("shop is not open yet - raising orders offline");

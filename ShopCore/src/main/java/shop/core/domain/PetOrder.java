@@ -203,7 +203,16 @@ public class PetOrder implements Serializable, Comparable<PetOrder>{
 				+ statusReason + ", orderSource=" + orderSource + ", petTag="
 				+ petTag + "]";
 	}
+	
+	
+	public void setDetailStatus(String status, String statusReason){
+		this.setStatus(status);
+		this.setStatusReason(statusReason);
+	}
 
+	public String logPrefix(){
+		return this.getOrderSource() + " - [Customer " + this.getCustomerNumber()+"] : ";
+	}
 	
 
 	
