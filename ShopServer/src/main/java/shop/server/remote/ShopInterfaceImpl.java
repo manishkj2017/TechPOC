@@ -1,20 +1,25 @@
-package shop.core.remote;
+package shop.server.remote;
 
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import shop.core.core.ServiceManager;
 import shop.core.domain.Pet;
+import shop.core.domain.PetInventory;
 import shop.core.domain.PetOrder;
+import shop.core.domain.PetOrderSummaryData;
+import shop.core.domain.PetSaleSummaryData;
 import shop.core.enums.OrderStatus;
 import shop.core.enums.PetTypes;
 import shop.core.exceptions.InsufficientPriceException;
+import shop.core.remote.ShopInterface;
+import shop.server.core.ServiceManager;
 
 @Component
 public class ShopInterfaceImpl extends UnicastRemoteObject implements ShopInterface {
@@ -78,12 +83,12 @@ public class ShopInterfaceImpl extends UnicastRemoteObject implements ShopInterf
 			}
 			else if(this.getServiceManager().getInventoryService().isStockAvailable(petType)){
 				Pet pet = this.getServiceManager().getPetService().getPet(type.getPetNumber(), type.name(), bidPrice, customerNumber, orderNumber);
-				order.setPetTag(pet.getTag());
 				
 				this.getServiceManager().getSaleService().updateSale(pet);
 				shopLog.debug(order.logPrefix()+ "Pet - " + pet.getName() + " was successfully bought in price - " + bidPrice);
 				order.setDetailStatus(OrderStatus.Accepted.name(), "Pet Bought" );
-
+				
+				order.setPetTag(pet.getTag());
 				this.getServiceManager().getOrderService().registerOrder(order);
 				return pet;
 			}else{
@@ -116,6 +121,21 @@ public class ShopInterfaceImpl extends UnicastRemoteObject implements ShopInterf
 	@Override
 	public boolean isOrderDupe(int orderNumber) throws RemoteException {
 		return this.getServiceManager().getOrderService().isDupeOrder(orderNumber);
+	}
+
+	@Override
+	public List<PetSaleSummaryData> getPetSaleSummary() throws RemoteException{
+		return this.getServiceManager().getDao().getPetSaleSummary();
+	}
+
+	@Override
+	public List<PetOrderSummaryData> getPetOrderSummary() throws RemoteException{
+		return this.getServiceManager().getDao().getPetOrderSummary();
+	}
+
+	@Override
+	public List<PetInventory> getPetsInventorySummary() throws RemoteException{
+		return this.getServiceManager().getDao().getPetsInventory();
 	}
 	
 	

@@ -7,9 +7,10 @@ import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 
+import shop.client.core.ShopClientProperties;
 import shop.core.bootstrap.CoreJMSService;
-import shop.core.core.Shop;
 import shop.core.domain.PetOrder;
+
 
 public class JMSSetup extends CoreJMSService{
 	
@@ -24,7 +25,7 @@ public class JMSSetup extends CoreJMSService{
 	}
 
 	public static void initJMS() throws JMSException {
-		CoreJMSService.initJMS(new JSONTransformer());
+		CoreJMSService.initJMS(new JSONTransformer(), ShopClientProperties.getProperties().getJMSBrokerUrl());
 		createProducers();
 		createConsumers();
 		
@@ -48,7 +49,7 @@ public class JMSSetup extends CoreJMSService{
 	private static Message createMessage(PetOrder order) throws JMSException{
 		ObjectMessage message = session.createObjectMessage();
 		message.setObject(order);
-		Shop.getJMSLog().debug("JMS order - " + order.toString());
+		ShopClientProperties.getJMSLog().debug("JMS order - " + order.toString());
 		return message;
 		
 	}

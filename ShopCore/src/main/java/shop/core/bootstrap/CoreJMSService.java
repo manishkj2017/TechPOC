@@ -10,8 +10,6 @@ import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.MessageTransformer;
 
-import shop.core.core.Shop;
-
 public class CoreJMSService {
 	
 	public static final String JMSBuyTopic = "PET_BUY";
@@ -29,8 +27,9 @@ public class CoreJMSService {
 	
 	public static MessageProducer shopMonProducer;
 	
+	private static String brokerURL;
 	private static void initFactory(MessageTransformer transformer){
-		activeMQFactory = new ActiveMQConnectionFactory(Shop.getProperties().getJMSBrokerUrl());
+		activeMQFactory = new ActiveMQConnectionFactory(brokerURL);
 		activeMQFactory.setTrustAllPackages(true);
 		if(transformer != null)
 			activeMQFactory.setTransformer(transformer);
@@ -51,7 +50,8 @@ public class CoreJMSService {
 		
 	}
 	
-	public static void initJMS(MessageTransformer transformer) throws JMSException{
+	public static void initJMS(MessageTransformer transformer, String brokerURL) throws JMSException{
+		CoreJMSService.brokerURL = brokerURL;
 		if(session == null){
 			System.out.println("initializing JMS...");
 			initFactory(transformer);

@@ -7,13 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import shop.core.enums.PetTypes;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name=Pet.FIND_PET_SALE_SUMMARY, 
+			query="select p.name, o.orderSource, count(p.tag), 0, sum(p.price), 0, 0"
+					+ " from Pet p, PetOrder o where p.tag = o.petTag group by p.name, o.orderSource")
+					
+})
 public class Pet implements Serializable, Comparable<Pet>{
 
 	private static final long serialVersionUID = 1L;
+	public static final String FIND_PET_SALE_SUMMARY = "findPetSaleSummary";
+	
 
 	public Pet(){
 		

@@ -1,4 +1,4 @@
-package shop.core.services;
+package shop.server.services;
 
 import java.util.ArrayDeque;
 import java.util.Map;
@@ -9,4 +9,5 @@ public interface InventoryService {
 	public void buildInventory();
 	public void printInventory();
 	public Map<String, ArrayDeque<Integer>> returnInventory(); 
+	
 }

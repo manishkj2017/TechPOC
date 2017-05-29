@@ -1,4 +1,4 @@
-package shop.core.writers;
+package shop.server.writers;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.concurrent.TimeUnit;
 
-import shop.core.core.ServiceManager;
-import shop.core.core.Shop;
 import shop.core.domain.PetOrder;
+import shop.server.core.ServiceManager;
+import shop.server.core.ShopServerProperties;
 
 public class OrderWriter implements Runnable{
 
@@ -24,7 +24,7 @@ public class OrderWriter implements Runnable{
 	public void run() {
 		System.out.println("starting order update thread..");
 		try(OutputStreamWriter out = new OutputStreamWriter(new BufferedOutputStream(
-				new FileOutputStream(Shop.getProperties().getPetStorePath()+"/"+Shop.getProperties().getPetOrderFileName())))){
+				new FileOutputStream(ShopServerProperties.getProperties().getPetStorePath()+"/"+ShopServerProperties.getProperties().getPetOrderFileName())))){
 			
 			out.write(buildHeader());
 			while (true){

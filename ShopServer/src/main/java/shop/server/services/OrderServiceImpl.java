@@ -1,4 +1,4 @@
-package shop.core.services;
+package shop.server.services;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,5 +52,5 @@ public class OrderServiceImpl implements OrderService {
 	public boolean isDupeOrder(int orderNumber) {
 		return ordersInMemoryStore.containsKey(orderNumber);
 	}
-
+	
 }

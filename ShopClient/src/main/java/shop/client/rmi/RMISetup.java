@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import shop.core.core.Shop;
+import shop.client.core.ShopClientProperties;
 import shop.core.remote.ShopInterface;
 
 public class RMISetup {
@@ -14,8 +14,8 @@ public class RMISetup {
 	public static ShopInterface getRemoteShop(){
 		try{
 			if(shopInterface == null){
-				Registry registry = LocateRegistry.getRegistry(Shop.getProperties().getRMIPort());
-				shopInterface = (ShopInterface)registry.lookup(Shop.getProperties().getShopRMIName());
+				Registry registry = LocateRegistry.getRegistry(ShopClientProperties.getProperties().getRMIPort());
+				shopInterface = (ShopInterface)registry.lookup(ShopClientProperties.getProperties().getShopRMIName());
 			}
 			return shopInterface;
 		}catch(RemoteException | NotBoundException e){
@@ -29,8 +29,8 @@ public class RMISetup {
 		System.out.println("unbinding the remote shop reference");
 		Registry registry;
 		try {
-			registry = LocateRegistry.getRegistry(Shop.getProperties().getRMIPort());
-			registry.unbind(Shop.getProperties().getShopRMIName());
+			registry = LocateRegistry.getRegistry(ShopClientProperties.getProperties().getRMIPort());
+			registry.unbind(ShopClientProperties.getProperties().getShopRMIName());
 		} catch (RemoteException | NotBoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

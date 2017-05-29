@@ -1,13 +1,9 @@
 package shop.core.bootstrap;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
-import org.springframework.stereotype.Component;
-
-import shop.core.core.Shop;
-
-@Component
 public class SystemProperties {
 	public Properties props;
 	private static final String JMSBrokerUrl = "JMSBrokerUrl";
@@ -23,17 +19,18 @@ public class SystemProperties {
 	private static final String ShopCloseWebServiceURL = "ShopCloseWebServiceURL";
 	private static final String MaxBidPriceOffset = "MaxBidPriceOffset";
 	private static final String MaxCustomers = "MaxCustomers";
+	private static final String PetSaleSummaryWebServiceURL ="PetSaleSummaryWebServiceURL";
 	
 	
-	public SystemProperties(){
-		loadProperties();
+	public SystemProperties(InputStream stream){
+		loadProperties(stream);
 	}
 	
-	private void loadProperties(){
+	private void loadProperties(InputStream stream){
 		//load properties
 		try {
 			props = new Properties();
-			props.load(Shop.class.getClassLoader().getResourceAsStream("application.properties"));
+			props.load(stream);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -88,5 +85,9 @@ public class SystemProperties {
 	
 	public int getMaxCustomers(){
 		return Integer.valueOf(props.getProperty(MaxCustomers));
+	}
+	
+	public String getPetSaleSummaryWebServiceURL(){
+		return props.getProperty(PetSaleSummaryWebServiceURL);
 	}
 }

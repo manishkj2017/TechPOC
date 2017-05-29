@@ -7,6 +7,7 @@ import javax.jms.JMSException;
 import javax.jms.MessageConsumer;
 
 import shop.core.bootstrap.CoreJMSService;
+import shop.server.core.ShopServerProperties;
 import shop.server.shop.OpenShop;
 
 public class SetupJMS extends CoreJMSService{
@@ -17,7 +18,7 @@ public class SetupJMS extends CoreJMSService{
 	private static int numberOfConsumers = 1;
 	
 	public static void initJMS() throws JMSException{
-		CoreJMSService.initJMS(null);
+		CoreJMSService.initJMS(null, ShopServerProperties.getProperties().getJMSBrokerUrl());
 		createConsumers();
 		connection.start();
 		

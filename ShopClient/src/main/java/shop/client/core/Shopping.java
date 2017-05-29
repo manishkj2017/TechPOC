@@ -15,7 +15,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import shop.client.config.ApplicationConfig;
 import shop.client.jms.JMSSetup;
 import shop.core.bootstrap.StartJMSBroker;
-import shop.core.core.Shop;
 import shop.core.enums.OrderSource;
 
 public class Shopping {
@@ -24,7 +23,7 @@ public class Shopping {
 	private final LocalTime shoppingStartTime = LocalTime.now();
 	private Random shopChannelChoice = new Random();
 	private ExecutorService executor;
-	private final int maxCustomers = new Random().nextInt(Shop.getProperties().getMaxCustomers());
+	private final int maxCustomers = new Random().nextInt(ShopClientProperties.getProperties().getMaxCustomers());
 	private int rmiOrders = 0;
 	private int jmsOrders = 0;
 	private int webOrders = 0;
@@ -128,7 +127,7 @@ public class Shopping {
 	 
 
 	private void bootStraping(){
-		StartJMSBroker.startBroker(false);
+		StartJMSBroker.startBroker(false, ShopClientProperties.getProperties().getJMSBrokerUrl());
 		try {
 			JMSSetup.initJMS();
 		} catch (JMSException e) {

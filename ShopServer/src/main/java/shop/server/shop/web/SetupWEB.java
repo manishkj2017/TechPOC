@@ -10,11 +10,11 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoaderListener;
 
-import shop.core.core.Shop;
+import shop.server.core.ShopServerProperties;
 
 public class SetupWEB {
 	public static void startServer(ApplicationContext context){
-		Server jettyWeb = new Server(Shop.getProperties().getWEBPort());
+		Server jettyWeb = new Server(ShopServerProperties.getProperties().getWEBPort());
 		ServletContextHandler servletContext = new ServletContextHandler();
 		
 		servletContext.setInitParameter("contextConfigLocation", "classpath:/cxf-servlet.xml");

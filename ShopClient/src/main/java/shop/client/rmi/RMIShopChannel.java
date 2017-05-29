@@ -3,7 +3,7 @@ package shop.client.rmi;
 import java.rmi.RemoteException;
 
 import shop.client.core.ShopChannel;
-import shop.core.core.Shop;
+import shop.client.core.ShopClientProperties;
 import shop.core.domain.Pet;
 import shop.core.domain.PetOrder;
 import shop.core.enums.OrderSource;
@@ -17,7 +17,7 @@ public class RMIShopChannel implements ShopChannel<Pet> {
 			order.setOrderSource(OrderSource.RMI.name());
 			RMISetup.getRemoteShop().buyRequest(order.getPetType(), order.getCustomerName(), order.getBidPrice(), 
 					order.getCustomerNumber(), order.getOrderSource(), order.getOrderNumber());
-			Shop.getRMILog().debug("RMI order - " + order.toString());
+			ShopClientProperties.getRMILog().debug("RMI order - " + order.toString());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -33,7 +33,7 @@ public class RMIShopChannel implements ShopChannel<Pet> {
 			}
 			return RMISetup.getRemoteShop().isShopClosed(); //try remote call
 		}catch(RemoteException e){
-			Shop.getRMILog().debug("Remote request failed - shop has closed probably");
+			ShopClientProperties.getRMILog().debug("Remote request failed - shop has closed probably");
 			isShopClosed = true;
 			
 		}

@@ -7,10 +7,10 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import shop.client.core.ShopChannel;
+import shop.client.core.ShopClientProperties;
 import shop.client.jms.JMSShopChannel;
 import shop.client.rmi.RMIShopChannel;
 import shop.client.web.WEBShopChannel;
-import shop.core.core.Shop;
 import shop.core.domain.Pet;
 import shop.core.enums.PetTypes;
 
@@ -28,7 +28,7 @@ public class CustomeServiceImpl implements CustomerService {
 	
 	@Override
 	public BigDecimal getBidPrice() {
-		int price = bidPriceGenerator.nextInt(PetTypes.getMaxSellingPrice() + Shop.getProperties().getMaxBidPriceOffset());
+		int price = bidPriceGenerator.nextInt(PetTypes.getMaxSellingPrice() + ShopClientProperties.getProperties().getMaxBidPriceOffset());
 		return new BigDecimal(price);
 	}
 

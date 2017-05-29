@@ -1,4 +1,4 @@
-package shop.core.services;
+package shop.server.services;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -7,14 +7,15 @@ import java.util.Random;
 
 import org.springframework.stereotype.Component;
 
-import shop.core.core.Shop;
 import shop.core.enums.PetTypes;
+import shop.server.core.Shop;
+import shop.server.core.ShopServerProperties;
 
 @Component
 public class InventoryServiceImpl implements InventoryService {
 
 	private boolean isInventoryBuilt = false;
-	private Map<String, ArrayDeque<Integer>> inventory = new HashMap();
+	private Map<String, ArrayDeque<Integer>> inventory = new HashMap<String, ArrayDeque<Integer>>();
 	private Random inventorySize = new Random();
 	private Object inventoryLock = new Object();
 	
@@ -69,7 +70,7 @@ public class InventoryServiceImpl implements InventoryService {
 	
 	private void buildFromLocal() {
 		for(PetTypes type : PetTypes.values()){
-			int maxStock = inventorySize.nextInt(Shop.getProperties().getPetMaxInventorySize());
+			int maxStock = inventorySize.nextInt(ShopServerProperties.getProperties().getPetMaxInventorySize());
 			ArrayDeque<Integer> petStock = new ArrayDeque<Integer> ();
 			for(int i=1; i <=maxStock; i++){
 				petStock.offer(i);

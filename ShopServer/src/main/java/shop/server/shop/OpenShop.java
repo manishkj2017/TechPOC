@@ -3,11 +3,11 @@ package shop.server.shop;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import shop.core.bootstrap.StartH2DB;
-import shop.core.core.Shop;
 import shop.core.remote.ShopInterface;
-import shop.core.remote.ShopInterfaceImpl;
+import shop.server.bootstrap.StartH2DB;
 import shop.server.config.ApplicationConfig;
+import shop.server.core.Shop;
+import shop.server.remote.ShopInterfaceImpl;
 import shop.server.shop.jms.JMSShop;
 import shop.server.shop.rmi.RMIShop;
 import shop.server.shop.web.WebShop;

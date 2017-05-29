@@ -1,4 +1,4 @@
-package shop.core.services;
+package shop.server.services;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,5 +59,5 @@ public class SaleServiceImpl implements SaleService {
 			saleInMemoryStore.put(pet.getTag(), pet);
 		}
 	}
-
+	
 }

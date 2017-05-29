@@ -1,4 +1,4 @@
-package shop.core.core;
+package shop.server.core;
 
 import javax.jms.JMSException;
 
@@ -20,6 +20,8 @@ public class ShopCloseMonitor extends Thread{
 			if(!this.getServiceManager().getInventoryService().isAnyStockAvailable()){
 				try{
 					performShopClosure();
+					System.out.println("closing shop monitor thread..");
+					return;
 				}catch(RemoteException r){
 					r.printStackTrace();
 				}
@@ -61,6 +63,11 @@ public class ShopCloseMonitor extends Thread{
 			this.getServiceManager().getSaleService().printSaleSummary();
 			this.getServiceManager().getInventoryService().printInventory();
 			this.getServiceManager().getOrderService().printOrderSummary();
+			
+			System.out.println("total pets sold DB - " + this.getServiceManager().getDao().countPets("all"));
+			System.out.println("total orders received DB - " + this.getServiceManager().getDao().countOrders("", "", ""));
+			
+			return;
 			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

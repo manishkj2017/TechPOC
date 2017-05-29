@@ -1,4 +1,4 @@
-package shop.core.services;
+package shop.server.services;
 
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -9,4 +9,5 @@ public interface SaleService {
 	public LinkedBlockingQueue<Pet> returnSaleData();
 	public void printSaleSummary();
 	public Pet getPetByTag(int tag);
+	
 }

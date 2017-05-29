@@ -1,13 +1,13 @@
-package shop.core.services;
+package shop.server.services;
 
 import java.math.BigDecimal;
 
 import org.springframework.stereotype.Component;
 
-import shop.core.core.Shop;
 import shop.core.domain.Pet;
 import shop.core.enums.PetTypes;
 import shop.core.exceptions.InsufficientPriceException;
+import shop.server.core.ShopServerProperties;
 
 @Component
 public class PetServiceImpl implements PetService {
@@ -17,10 +17,10 @@ public class PetServiceImpl implements PetService {
 			int customerNumber, int orderNumber) throws InsufficientPriceException{
 		
 		PetTypes type = PetTypes.getTypeByNumber(petNumber);
-		Shop.getShopLog().debug("[Customer - " + customerNumber + "][Order - " + orderNumber + "] : purchase request received for : " + type.name() + " for price - " + bidPrice );
+		ShopServerProperties.getShopLog().debug("[Customer - " + customerNumber + "][Order - " + orderNumber + "] : purchase request received for : " + type.name() + " for price - " + bidPrice );
 		if(!isPriceValid(bidPrice, type)){
 			String insufficientPriceLogMsg = "[Customer - " + customerNumber + "][Order - " + orderNumber + "] : order rejected as bid price is not sufficient";
-			Shop.getShopLog().debug(insufficientPriceLogMsg);
+			ShopServerProperties.getShopLog().debug(insufficientPriceLogMsg);
 			throw new InsufficientPriceException(insufficientPriceLogMsg);
 		}
 		

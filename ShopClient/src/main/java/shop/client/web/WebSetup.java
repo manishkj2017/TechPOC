@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import shop.core.core.Shop;
+import shop.client.core.ShopClientProperties;
 import shop.core.domain.PetOrder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,26 +22,26 @@ public class WebSetup {
 		Client client = ClientBuilder.newClient();
 		
 		if(isConnectionClosed){
-			Shop.getWEBLog().debug("Web - Shop is closed..");
+			ShopClientProperties.getWEBLog().debug("Web - Shop is closed..");
 			return;
 		}
 		
-		WebTarget target = client.target(Shop.getProperties().getPetWebServiceURL());
+		WebTarget target = client.target(ShopClientProperties.getProperties().getPetWebServiceURL());
 		ObjectMapper mapper = new ObjectMapper();
 		String orderJson = "";
 		
 		try {
 			orderJson = mapper.writeValueAsString(order);
-			Shop.getWEBLog().debug("Web order - " + orderJson);
+			ShopClientProperties.getWEBLog().debug("Web order - " + orderJson);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
 		
 		try{
 			Response response = target.request().post(Entity.entity(orderJson, MediaType.APPLICATION_JSON));
-			Shop.getWEBLog().debug(response.getStatus() + ":" + response.readEntity(String.class));
+			ShopClientProperties.getWEBLog().debug(response.getStatus() + ":" + response.readEntity(String.class));
 		}catch(Exception e){
-			Shop.getWEBLog().debug("web request failed - shop closed probably");
+			ShopClientProperties.getWEBLog().debug("web request failed - shop closed probably");
 			isConnectionClosed = true;
 		}
 	}
@@ -49,7 +49,7 @@ public class WebSetup {
 	public static boolean isShopClosed(){
 		
 		Client client  = ClientBuilder.newClient();
-		WebTarget target = client.target(Shop.getProperties().getShopCloseWebServiceURL());
+		WebTarget target = client.target(ShopClientProperties.getProperties().getShopCloseWebServiceURL());
 		Response response = target.request().get();
 		if(response.getStatusInfo().getStatusCode() == Status.SERVICE_UNAVAILABLE.getStatusCode()){
 			return true;

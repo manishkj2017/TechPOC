@@ -7,13 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name=PetOrder.FIND_PET_ORDER_SUMMARY, 
+			query="select o.petType, o.orderSource, o.status, o.statusReason, count(o) "
+					+ "from PetOrder o group by o.petType, o.orderSource, o.status, o.statusReason")
+					
+})
 public class PetOrder implements Serializable, Comparable<PetOrder>{
 
 	
 	private static final long serialVersionUID = 1L;
-	
+	public static final String FIND_PET_ORDER_SUMMARY = "findPetOrderSummary";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

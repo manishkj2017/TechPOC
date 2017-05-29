@@ -1,4 +1,4 @@
-package shop.core.bootstrap;
+package shop.server.bootstrap;
 
 import java.sql.SQLException;
 

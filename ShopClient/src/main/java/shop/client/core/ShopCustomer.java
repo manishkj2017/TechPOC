@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import shop.client.services.CustomerService;
-import shop.core.core.Shop;
 import shop.core.domain.Pet;
 import shop.core.domain.PetOrder;
 import shop.core.enums.OrderStatus;
+
 
 @Component
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -38,7 +38,7 @@ public class ShopCustomer extends Thread{
 			ShopChannel<Pet> shopChannel = this.getCustomerService().getCustomerInterfaceForPets(this.getShopChannel());
 			
 			if(shopChannel.isShopClosed()){
-				Shop.getShopLog().debug("[Customer " + this.getCustomerNumber() + "] : returning as shop is closed");
+				ShopClientProperties.getShopLog().debug("[Customer " + this.getCustomerNumber() + "] : returning as shop is closed");
 				Shopping.isShopClosed = true;
 				return;
 			}

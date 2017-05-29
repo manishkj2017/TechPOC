@@ -3,12 +3,13 @@ package shop.server.shop.jms;
 import javax.jms.JMSException;
 
 import shop.core.bootstrap.StartJMSBroker;
+import shop.server.core.ShopServerProperties;
 
 public class JMSShop extends Thread{
 	
 	@Override
 	public void run(){
-		StartJMSBroker.startBroker(true);
+		StartJMSBroker.startBroker(true, ShopServerProperties.getProperties().getJMSBrokerUrl());
 		
 		try {
 			SetupJMS.initJMS();

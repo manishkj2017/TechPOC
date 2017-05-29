@@ -1,13 +1,13 @@
-package shop.core.core;
+package shop.server.core;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import shop.core.dao.PetDBInterface;
-import shop.core.services.InventoryService;
-import shop.core.services.OrderService;
-import shop.core.services.PetService;
-import shop.core.services.SaleService;
+import shop.server.services.InventoryService;
+import shop.server.services.OrderService;
+import shop.server.services.PetService;
+import shop.server.services.SaleService;
 
 @Component
 public class ServiceManager {

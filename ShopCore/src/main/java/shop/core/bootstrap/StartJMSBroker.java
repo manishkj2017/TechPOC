@@ -8,14 +8,13 @@ import javax.jms.JMSException;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
 
-import shop.core.core.Shop;
-
 public class StartJMSBroker {
 	
-	public static void startBroker(boolean isShop){
+	
+	public static void startBroker(boolean isShop, String brokerURL){
 		try{
 			
-			if(isBrokerAlreadyRunning()){
+			if(isBrokerAlreadyRunning(brokerURL)){
 				if(!isShop){
 					System.out.println("shop is open..");
 				}
@@ -32,7 +31,7 @@ public class StartJMSBroker {
 		
 		BrokerService broker = new BrokerService();
 		try{
-			broker.addConnector(Shop.getProperties().getJMSBrokerUrl());
+			broker.addConnector(brokerURL);
 			broker.start();
 		}catch(Exception e){
 			System.out.println("broker was not started properly.. please check");
@@ -40,9 +39,9 @@ public class StartJMSBroker {
 		}
 	}
 	
-	private static boolean isBrokerAlreadyRunning() throws JMSException{
+	private static boolean isBrokerAlreadyRunning(String brokerURL) throws JMSException{
 		boolean isBrokerAlreadyRunning = true;
-		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(Shop.getProperties().getJMSBrokerUrl());
+		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerURL);
 		Connection connection = null;
 		
 		try{

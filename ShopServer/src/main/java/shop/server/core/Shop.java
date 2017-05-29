@@ -1,21 +1,17 @@
-package shop.core.core;
+package shop.server.core;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import shop.core.bootstrap.SystemProperties;
-import shop.core.writers.OrderWriter;
-import shop.core.writers.SaleWriter;
+import shop.server.writers.OrderWriter;
+import shop.server.writers.SaleWriter;
 
 @Component
 public class Shop {
 	
-	private static SystemProperties properties = new SystemProperties();
-	private static Logger shopLog  = Logger.getLogger("SHOP");
-	private static Logger jmsLog = Logger.getLogger("JMS");
-	private static Logger webLog = Logger.getLogger("WEB");
-	private static Logger rmiLog = Logger.getLogger("RMI");
+	
 	
 	private ServiceManager serviceManager;
 	
@@ -69,26 +65,6 @@ public class Shop {
 		return serviceManager;
 	}
 
-	public static SystemProperties getProperties() {
-		return properties;
-	}
-
-	public static void setProperties(SystemProperties properties) {
-		Shop.properties = properties;
-	}
-
-	public static Logger getShopLog() {
-		return shopLog;
-	}
-	public static Logger getJMSLog() {
-		return jmsLog;
-	}
-	public static Logger getWEBLog() {
-		return webLog;
-	}
-	public static Logger getRMILog() {
-		return rmiLog;
-	}
 	
 	
 	
