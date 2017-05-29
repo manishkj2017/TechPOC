@@ -31,6 +31,7 @@ public class SystemProperties {
 		try {
 			props = new Properties();
 			props.load(stream);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,7 +43,7 @@ public class SystemProperties {
 	}
 	
 	public String getPetStorePath(){
-		return props.getProperty(PetStorePath);
+		return System.getProperty("user.home")+props.getProperty(PetStorePath);
 	}
 	
 	public String getPetOrderFileName(){
