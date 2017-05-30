@@ -7,12 +7,21 @@
   <name>Shop</name>
   <description>POC</description>
   
+  <modules>
+  	<module>ShopCore</module>
+  	<module>ShopServer</module>
+  	<module>ShopClient</module>
+  	<module>ShopGUI</module>
+  </modules>
+  
   <properties>
   	<spring-version>4.3.7.RELEASE</spring-version>
   	<cxf-version>3.1.11</cxf-version>
   	<jetty-version>9.0.0.M3</jetty-version>
   	<jackson-version>1.9.13</jackson-version>
   </properties>
+  
+  
 
   
   <dependencies>
