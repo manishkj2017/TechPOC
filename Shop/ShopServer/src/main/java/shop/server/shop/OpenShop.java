@@ -27,8 +27,6 @@ public class OpenShop {
 		//create shop interface for buyers to raise orders
 		shopInterface = context.getBean(ShopInterfaceImpl.class);
 		
-		System.out.println("jms broker url - " + ShopServerProperties.getProperties().getJMSBrokerUrl());
-		
 		//start shop services
 		Shop shop = context.getBean(Shop.class);
 		shop.init();
