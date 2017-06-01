@@ -7,7 +7,6 @@ import shop.core.remote.ShopInterface;
 import shop.server.bootstrap.StartH2DB;
 import shop.server.config.ApplicationConfig;
 import shop.server.core.Shop;
-import shop.server.core.ShopServerProperties;
 import shop.server.remote.ShopInterfaceImpl;
 import shop.server.shop.jms.JMSShop;
 import shop.server.shop.rmi.RMIShop;
