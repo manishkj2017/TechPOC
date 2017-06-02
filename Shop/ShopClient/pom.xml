@@ -37,7 +37,7 @@
 						<manifest>
 							<mainClass>shop.client.core.Shopping</mainClass>
 							<addClasspath>true</addClasspath>
-							<classpathPrefix>${project.basedir}-dependency/</classpathPrefix>
+							<classpathPrefix>dependency/</classpathPrefix>
 						</manifest>
 					</archive>
 				</configuration>
@@ -64,7 +64,7 @@
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.basedir}-dependency</outputDirectory>
+							<outputDirectory>${project.build.directory}/dependency</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
