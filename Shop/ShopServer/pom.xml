@@ -26,6 +26,7 @@
   
   <build>
 		<plugins>
+			<!-- this plug in to change default Java compiler to 1.8 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -35,6 +36,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+			<!-- this plug in is to add main class entry to MANIFEST file in order to run using java -jar command -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -49,6 +51,7 @@
 					</archive>
 				</configuration>
 			</plugin>
+			<!-- this plug in is to get all dependency jars in a single folder and map to MANIFEST classpath -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -72,6 +75,27 @@
 						</goals>
 						<configuration>
 							<outputDirectory>${project.build.directory}/dependency</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>build-fatjar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<excludes>
+									<exclude>junit:junit</exclude>
+								</excludes>
+							</artifactSet>
 						</configuration>
 					</execution>
 				</executions>
