@@ -12,7 +12,7 @@
  		<param-name>contextConfigLocation</param-name>
  		<param-value>
  			WEB-INF/config/servlet-config.xml
- 			WEB-INF/config/jpaContext.xml
+ 		<!--  WEB-INF/config/jpaContext.xml -->	
  		</param-value>
  	</init-param>
  	<load-on-startup>1</load-on-startup>

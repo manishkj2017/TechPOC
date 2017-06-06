@@ -4,12 +4,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import junit.framework.TestCase;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import shop.core.domain.Pet;
@@ -55,16 +56,16 @@ public class ShopDataServiceImplTest extends TestCase{
 	@Test
 	public void testPetSaleSummaryFromCache(){
 	
-		LinkedBlockingQueue<Pet> saleInmemoryData = new LinkedBlockingQueue<Pet>();
-		LinkedBlockingQueue<PetOrder> orderInmemoryData = new LinkedBlockingQueue<PetOrder>();
+		Collection<Pet> saleInmemoryData = new ArrayList<Pet>();
+		Collection<PetOrder> orderInmemoryData = new ArrayList<PetOrder>();
 		
 		preparePetSaleData(saleInmemoryData, orderInmemoryData);
 		
 		when(shop.getServiceManager()).thenReturn(serviceManager);
 		when(serviceManager.getSaleService()).thenReturn(saleService);
 		when(serviceManager.getOrderService()).thenReturn(orderService);
-		when(saleService.returnSaleData()).thenReturn(saleInmemoryData);
-		when(orderService.returnOrderData()).thenReturn(orderInmemoryData);
+		when(saleService.getInMemoryStorePetSaleData()).thenReturn(saleInmemoryData);
+		when(orderService.getInMemoryStoreOrdersData()).thenReturn(orderInmemoryData);
 		
 		List<PetSaleSummaryData> summaryData = shopDataService.getPetSaleSummary();
 		summaryData.forEach(System.out::println);
@@ -79,16 +80,16 @@ public class ShopDataServiceImplTest extends TestCase{
 	public void testPetOrderSummaryFromCache(){
 		
 		
-		LinkedBlockingQueue<Pet> saleInmemoryData = new LinkedBlockingQueue<Pet>();
-		LinkedBlockingQueue<PetOrder> orderInmemoryData = new LinkedBlockingQueue<PetOrder>();
+		Collection<Pet> saleInmemoryData = new ArrayList<Pet>();
+		Collection<PetOrder> orderInmemoryData = new ArrayList<PetOrder>();
 		
 		preparePetSaleData(saleInmemoryData, orderInmemoryData);
 		
 		when(shop.getServiceManager()).thenReturn(serviceManager);
 		when(serviceManager.getSaleService()).thenReturn(saleService);
 		when(serviceManager.getOrderService()).thenReturn(orderService);
-		when(saleService.returnSaleData()).thenReturn(saleInmemoryData);
-		when(orderService.returnOrderData()).thenReturn(orderInmemoryData);
+		when(saleService.getInMemoryStorePetSaleData()).thenReturn(saleInmemoryData);
+		when(orderService.getInMemoryStoreOrdersData()).thenReturn(orderInmemoryData);
 		
 		List<PetOrderSummaryData> summaryData = shopDataService.getPetOrderSummary();
 		
@@ -98,7 +99,7 @@ public class ShopDataServiceImplTest extends TestCase{
 	}
 		
 	
-	private  void preparePetSaleData(LinkedBlockingQueue<Pet> saleInmemoryData, LinkedBlockingQueue<PetOrder> orderInmemoryData){
+	private  void preparePetSaleData(Collection<Pet> saleInmemoryData, Collection<PetOrder> orderInmemoryData){
 		Pet pet1 = buildPet(1, PetTypes.Dog.name());
 		Pet pet2 = buildPet(2, PetTypes.Dog.name());
 		Pet pet3 = buildPet(3, PetTypes.Cat.name());
@@ -115,16 +116,16 @@ public class ShopDataServiceImplTest extends TestCase{
 		linkPetAndOrder(pet3, order2);
 		
 		
-		saleInmemoryData.offer(pet1);
-		saleInmemoryData.offer(pet2);
-		saleInmemoryData.offer(pet3);
+		saleInmemoryData.add(pet1);
+		saleInmemoryData.add(pet2);
+		saleInmemoryData.add(pet3);
 		
-		orderInmemoryData.offer(order1);
-		orderInmemoryData.offer(order2);
-		orderInmemoryData.offer(order3);
-		orderInmemoryData.offer(order4);
-		orderInmemoryData.offer(order5);
-		orderInmemoryData.offer(order6);
+		orderInmemoryData.add(order1);
+		orderInmemoryData.add(order2);
+		orderInmemoryData.add(order3);
+		orderInmemoryData.add(order4);
+		orderInmemoryData.add(order5);
+		orderInmemoryData.add(order6);
 		
 	}
 	

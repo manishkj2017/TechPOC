@@ -39,7 +39,7 @@ public class ShopDataServiceImpl implements ShopDataService {
 	public List<PetOrderSummaryData> getPetOrderSummary() {
 		
 		List<PetOrderSummaryData> orderSummaries = new  ArrayList<PetOrderSummaryData>();
-		LinkedBlockingQueue<PetOrder> orderInmemoryData = OpenShop.shop.getServiceManager().getOrderService().returnOrderData();
+		Collection<PetOrder> orderInmemoryData = OpenShop.shop.getServiceManager().getOrderService().getInMemoryStoreOrdersData();
 		
 		//work with local list
 		List <PetOrder> orders = new ArrayList <PetOrder> ();
