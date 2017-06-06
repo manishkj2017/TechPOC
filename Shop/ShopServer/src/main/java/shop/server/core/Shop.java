@@ -1,10 +1,8 @@
 package shop.server.core;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import shop.core.bootstrap.SystemProperties;
 import shop.server.writers.OrderWriter;
 import shop.server.writers.SaleWriter;
 
@@ -43,6 +41,10 @@ public class Shop {
 		
 		if(getServiceManager().getInventoryService() != null){
 			System.out.println("inventory service is ready");
+		}
+		
+		if(getServiceManager().getShopDataService() != null){
+			System.out.println("shop data service is ready");
 		}
 		
 		//build inventory

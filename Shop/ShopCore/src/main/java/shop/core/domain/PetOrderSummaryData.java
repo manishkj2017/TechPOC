@@ -20,6 +20,10 @@ public class PetOrderSummaryData {
 		this.noOfOrders = noOfOrders;
 	}
 	
+	public PetOrderSummaryData(){
+		this.setNoOfOrders(0);
+	}
+	
 	public String getPetType() {
 		return petType;
 	}

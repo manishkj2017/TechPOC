@@ -3,10 +3,13 @@ package shop.server.shop.web;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -41,7 +44,7 @@ public class PetWebServiceImpl implements PetWebService {
 			
 			//check for dupe requests - CXF sometimes picking same request twice..
 			//TODO:try using Jersey or Spring web service provider and see
-			if(OpenShop.shopInterface.isOrderDupe(order.getOrderNumber())){
+			if(OpenShop.shop.getServiceManager().getOrderService().isDupeOrder(order.getOrderNumber())){
 				ShopServerProperties.getWEBLog().debug("caught dupe web service request for order - " + order.getOrderNumber());
 				return Response.ok().build(); //just return ok as it is not impacting original buy request
 				
@@ -99,69 +102,11 @@ public class PetWebServiceImpl implements PetWebService {
 	public Response getSaleSummary() {
 		String petSummariesJson = "no sale data found";
 		try{
-			List<PetSaleSummaryData> petSummaries = OpenShop.shopInterface.getPetSaleSummary();
-			List<PetOrderSummaryData> orderSummaries = OpenShop.shopInterface.getPetOrderSummary();
-			List<PetInventory> petInventory = OpenShop.shopInterface.getPetsInventorySummary();
+			List<PetSaleSummaryData> petSummaries = OpenShop.shop.getServiceManager().getDao().getPetSaleSummary();
+			List<PetOrderSummaryData> orderSummaries = OpenShop.shop.getServiceManager().getDao().getPetOrderSummary();
+			List<PetInventory> petInventory = OpenShop.shop.getServiceManager().getDao().getPetsInventory();
 			
-			Map<String, Integer> petAvailableStock = new HashMap<String, Integer> ();
-			Map<String, Integer> petRejectedOrders = new HashMap<String, Integer> ();
-			
-			Map<String, Integer> petTotalSold = new HashMap<String, Integer> ();
-			
-			for(PetInventory i: petInventory){
-				petAvailableStock.put(i.getPetType(), i.getStockAvailable());
-			}
-			
-			for(PetOrderSummaryData o:orderSummaries){
-				String key = o.getPetType() + "-" + o.getOrderSource();
-				if(OrderStatus.Rejected.name().equals(o.getStatus())){
-					if(petRejectedOrders.get(key) == null){
-						petRejectedOrders.put(key, o.getNoOfOrders());
-					}else{
-						int rejectedOrders = petRejectedOrders.get(key) + o.getNoOfOrders();
-						petRejectedOrders.put(key, rejectedOrders);
-					}
-				}
-				if(OrderStatus.Accepted.name().equals(o.getStatus())){
-					if(petTotalSold.get(o.getPetType()) == null){
-						petTotalSold.put(o.getPetType(), o.getNoOfOrders());
-					}else{
-						int acceptedOrders = petTotalSold.get(o.getPetType()) + o.getNoOfOrders();
-						petTotalSold.put(o.getPetType(), acceptedOrders);
-					}
-				}
-			}
-			
-			
-			
-			for(PetSaleSummaryData saleSummary : petSummaries){
-				
-				String key = saleSummary.getPetType() + "-" + saleSummary.getOrderSource();
-				
-				saleSummary.setAvailable(petAvailableStock.get(saleSummary.getPetType()) - petTotalSold.get(saleSummary.getPetType()));
-				if(petRejectedOrders.get(key) != null)
-					saleSummary.setNoOfRejectedOrders(petRejectedOrders.get(key));
-				else
-					saleSummary.setNoOfRejectedOrders(0);
-				
-				
-				
-				BigDecimal petSellingPrice = PetTypes.getTypeByName(saleSummary.getPetType()).getPrice();
-				BigDecimal cost = petSellingPrice.multiply(new BigDecimal(saleSummary.getTotalSold()));
-				
-				cost = cost.add(petSellingPrice.multiply(new BigDecimal(saleSummary.getAvailable())));
-				saleSummary.setBuyCost(cost.setScale(2, RoundingMode.HALF_UP));
-				
-				//add rejected orders penalty also to the cost - 5% penalty of pet price
-				BigDecimal rejectedOrderPenalty = petSellingPrice.multiply(new BigDecimal(saleSummary.getNoOfRejectedOrders()).multiply(new BigDecimal(0.05)));
-				saleSummary.setRejectionPenalty(rejectedOrderPenalty.setScale(2, RoundingMode.HALF_UP));
-				
-				cost = cost.add(rejectedOrderPenalty);
-				
-				saleSummary.setProfitLoss( (saleSummary.getRevenue().subtract(cost)).setScale(2, RoundingMode.HALF_UP));
-			}
-			
-			Collections.sort(petSummaries);
+			buildSaleSummary(petSummaries, orderSummaries, petInventory);
 			
 			ObjectMapper mapper = new ObjectMapper();
 			if(petSummaries.size() > 0)
@@ -172,12 +117,105 @@ public class PetWebServiceImpl implements PetWebService {
 		}catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-		}catch(IOException e){
+		}
+		
+		return Response.ok(petSummariesJson).build();
+	}
+	
+	
+	
+	//order summary grouping
+	
+	//select o.petType, o.orderSource, o.status, o.statusReason, count(o) "
+	//		+ "from PetOrder o group by o.petType, o.orderSource, o.status, o.statusReason
+	
+	@Override
+	public Response getPetSaleSummaryFromCache(){
+		
+		String petSummariesJson = "no sale data found";
+		try{
+			List<PetSaleSummaryData> petSummaries = OpenShop.shop.getServiceManager().getShopDataService().getPetSaleSummary();
+			petSummaries.forEach(System.out::println);
+			
+			List<PetOrderSummaryData> orderSummaries = OpenShop.shop.getServiceManager().getShopDataService().getPetOrderSummary();
+			List<PetInventory> petInventory = OpenShop.shop.getServiceManager().getDao().getPetsInventory();
+			
+			buildSaleSummary(petSummaries, orderSummaries, petInventory);
+			
+			ObjectMapper mapper = new ObjectMapper();
+			if(petSummaries.size() > 0)
+				petSummariesJson = mapper.writeValueAsString(petSummaries);
+			else
+				return Response.status(Status.NO_CONTENT).build();
+		}catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 		
 		return Response.ok(petSummariesJson).build();
+	}
+	
+	private void buildSaleSummary(List<PetSaleSummaryData> petSummaries, 
+			List<PetOrderSummaryData> orderSummaries, List<PetInventory> petInventory){
+		
+		Map<String, Integer> petAvailableStock = new HashMap<String, Integer> ();
+		Map<String, Integer> petRejectedOrders = new HashMap<String, Integer> ();
+		
+		Map<String, Integer> petTotalSold = new HashMap<String, Integer> ();
+		
+		for(PetInventory i: petInventory){
+			petAvailableStock.put(i.getPetType(), i.getStockAvailable());
+		}
+		
+		for(PetOrderSummaryData o:orderSummaries){
+			String key = o.getPetType() + "-" + o.getOrderSource();
+			if(OrderStatus.Rejected.name().equals(o.getStatus())){
+				if(petRejectedOrders.get(key) == null){
+					petRejectedOrders.put(key, o.getNoOfOrders());
+				}else{
+					int rejectedOrders = petRejectedOrders.get(key) + o.getNoOfOrders();
+					petRejectedOrders.put(key, rejectedOrders);
+				}
+			}
+			if(OrderStatus.Accepted.name().equals(o.getStatus())){
+				if(petTotalSold.get(o.getPetType()) == null){
+					petTotalSold.put(o.getPetType(), o.getNoOfOrders());
+				}else{
+					int acceptedOrders = petTotalSold.get(o.getPetType()) + o.getNoOfOrders();
+					petTotalSold.put(o.getPetType(), acceptedOrders);
+				}
+			}
+		}
+		
+		
+		
+		for(PetSaleSummaryData saleSummary : petSummaries){
+			
+			String key = saleSummary.getPetType() + "-" + saleSummary.getOrderSource();
+			saleSummary.setAvailable(petAvailableStock.get(saleSummary.getPetType()) - petTotalSold.get(saleSummary.getPetType()));
+			if(petRejectedOrders.get(key) != null)
+				saleSummary.setNoOfRejectedOrders(petRejectedOrders.get(key));
+			else
+				saleSummary.setNoOfRejectedOrders(0);
+			
+			
+			
+			BigDecimal petSellingPrice = PetTypes.getTypeByName(saleSummary.getPetType()).getPrice();
+			BigDecimal cost = petSellingPrice.multiply(new BigDecimal(saleSummary.getTotalSold()));
+			
+			cost = cost.add(petSellingPrice.multiply(new BigDecimal(saleSummary.getAvailable())));
+			saleSummary.setBuyCost(cost.setScale(2, RoundingMode.HALF_UP));
+			
+			//add rejected orders penalty also to the cost - 5% penalty of pet price
+			BigDecimal rejectedOrderPenalty = petSellingPrice.multiply(new BigDecimal(saleSummary.getNoOfRejectedOrders()).multiply(new BigDecimal(0.05)));
+			saleSummary.setRejectionPenalty(rejectedOrderPenalty.setScale(2, RoundingMode.HALF_UP));
+			
+			cost = cost.add(rejectedOrderPenalty);
+			
+			saleSummary.setProfitLoss( (saleSummary.getRevenue().subtract(cost)).setScale(2, RoundingMode.HALF_UP));
+		}
+		
+		Collections.sort(petSummaries);
 	}
 
 }

@@ -21,6 +21,12 @@ public class PetSaleSummaryData implements Comparable<PetSaleSummaryData>{
 		this.NoOfRejectedOrders = noOfRejectedOrders;
 		
 	}
+	
+	public PetSaleSummaryData(){
+		this.setRevenue(BigDecimal.ZERO);
+		this.setTotalSold(new Long(0));
+	}
+	
 	private String petType;
 	private BigDecimal revenue;
 	private Long totalSold;

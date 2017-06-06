@@ -1,4 +1,4 @@
-package shop.core.dao;
+package shop.server.dao;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

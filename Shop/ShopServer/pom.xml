@@ -12,7 +12,7 @@
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.test.skip>true</maven.test.skip> 
+    <!-- <maven.test.skip>true</maven.test.skip>  -->
   </properties>
   <dependencies>
     <dependency>
@@ -96,6 +96,24 @@
 									<exclude>junit:junit</exclude>
 								</excludes>
 							</artifactSet>
+							<filters>
+						        <filter>
+						            <artifact>*:*</artifact>
+						            <excludes>
+						                <exclude>META-INF/*.SF</exclude>
+						                <exclude>META-INF/*.DSA</exclude>
+						                <exclude>META-INF/*.RSA</exclude>
+						            </excludes>
+						        </filter>
+						        <filter>
+						        	<artifact>org.apache.activemq:activemq-all</artifact>
+						        	<excludes>
+						        		<exclude>org/springframework/**</exclude>
+						        		<exclude>javax/annotation/**</exclude>
+						        		<exclude>javax/transaction/**</exclude>
+						        	</excludes>
+						        </filter>
+						    </filters>
 						</configuration>
 					</execution>
 				</executions>

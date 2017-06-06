@@ -1,5 +1,6 @@
 package shop.server.services;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -58,6 +59,11 @@ public class SaleServiceImpl implements SaleService {
 			pet.setTag(++maxTag);
 			saleInMemoryStore.put(pet.getTag(), pet);
 		}
+	}
+
+	@Override
+	public Collection<Pet> getInMemoryStorePetSaleData() {
+		return saleInMemoryStore.values();
 	}
 	
 }

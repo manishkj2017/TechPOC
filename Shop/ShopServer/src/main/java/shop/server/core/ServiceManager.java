@@ -3,11 +3,12 @@ package shop.server.core;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import shop.core.dao.PetDBInterface;
+import shop.server.dao.PetDBInterface;
 import shop.server.services.InventoryService;
 import shop.server.services.OrderService;
 import shop.server.services.PetService;
 import shop.server.services.SaleService;
+import shop.server.services.ShopDataService;
 
 @Component
 public class ServiceManager {
@@ -16,6 +17,7 @@ public class ServiceManager {
 	private OrderService orderService;
 	private InventoryService inventoryService;
 	private SaleService saleService;
+	private ShopDataService shopDataService;
 	
 	private PetDBInterface dao;
 	
@@ -80,6 +82,15 @@ public class ServiceManager {
 	//@Autowired
 	public void setSaleWriter(Thread saleWriter) {
 		this.saleWriter = saleWriter;
+	}
+
+	public ShopDataService getShopDataService() {
+		return shopDataService;
+	}
+
+	@Autowired
+	public void setShopDataService(ShopDataService shopDataService) {
+		this.shopDataService = shopDataService;
 	}
 	
 	

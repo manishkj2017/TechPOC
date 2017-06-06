@@ -29,4 +29,8 @@ public interface PetWebService {
 	@GET
 	@Path("/pet/salesummary/")
 	public Response getSaleSummary();
+	
+	@GET
+	@Path("/pet/salesummarycache")
+	public Response getPetSaleSummaryFromCache();
 }

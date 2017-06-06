@@ -14,6 +14,7 @@ import shop.server.shop.web.WebShop;
 
 public class OpenShop {
 	public static ShopInterface shopInterface;
+	public static Shop shop;
 	
 	public static void main(String args[]){
 		
@@ -27,7 +28,7 @@ public class OpenShop {
 		shopInterface = context.getBean(ShopInterfaceImpl.class);
 		
 		//start shop services
-		Shop shop = context.getBean(Shop.class);
+		shop = context.getBean(Shop.class);
 		shop.init();
 		
 		//open selling desks

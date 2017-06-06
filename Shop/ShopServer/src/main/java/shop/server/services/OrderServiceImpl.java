@@ -1,5 +1,6 @@
 package shop.server.services;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -51,6 +52,11 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public boolean isDupeOrder(int orderNumber) {
 		return ordersInMemoryStore.containsKey(orderNumber);
+	}
+
+	@Override
+	public Collection<PetOrder> getInMemoryStoreOrdersData() {
+		return ordersInMemoryStore.values();	
 	}
 	
 }

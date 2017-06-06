@@ -14,7 +14,7 @@
 	<context:annotation-config/>
 	<context:component-scan base-package="shop.core.domain"></context:component-scan>
 	
-	<jpa:repositories base-package="shop.core.dao"/>
+	<jpa:repositories base-package="shop.server.dao"/>
 	
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"></bean>
 
