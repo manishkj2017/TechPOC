@@ -119,7 +119,7 @@
 					</execution>
 				</executions>
 			</plugin> -->
-			<!-- one-jar does not work for Spring jars -->
+			<!-- one-jar finally worked for Spring JPA after explicitly adding entity classes to persistence.xml -->
 			<plugin>
 				<groupId>com.jolira</groupId>
 				<artifactId>onejar-maven-plugin</artifactId>
