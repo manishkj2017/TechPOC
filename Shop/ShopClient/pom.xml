@@ -69,6 +69,27 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>com.jolira</groupId>
+				<artifactId>onejar-maven-plugin</artifactId>
+				<version>1.4.4</version>
+				<executions>
+					<execution>
+						<id>build-fatjar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>one-jar</goal>
+						</goals>
+						<configuration>
+							<mainClass>shop.client.core.Shopping</mainClass>
+							<onejarVersion>0.97</onejarVersion>
+							<attachToBuild>true</attachToBuild>
+							<filename>${project.artifactId}-${project.version}-onejar.jar</filename>
+						</configuration>
+						
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>	
   <dependencies>

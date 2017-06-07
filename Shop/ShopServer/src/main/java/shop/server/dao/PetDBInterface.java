@@ -7,6 +7,8 @@ import shop.core.domain.PetInventory;
 import shop.core.domain.PetOrder;
 import shop.core.domain.PetOrderSummaryData;
 import shop.core.domain.PetSaleSummaryData;
+import shop.server.domain.PetEntity;
+import shop.server.domain.PetInventoryEntity;
 
 public interface PetDBInterface {
 	public void insertOrder(PetOrder order);
@@ -18,6 +20,6 @@ public interface PetDBInterface {
 	public Pet getPet(int tag);
 
 	public List<PetSaleSummaryData> getPetSaleSummary();
-	public List<PetInventory> getPetsInventory();
+	public List<PetInventoryEntity> getPetsInventory();
 	public List<PetOrderSummaryData> getPetOrderSummary();
 }

@@ -9,7 +9,7 @@ import shop.core.domain.Pet;
 import shop.core.domain.PetOrder;
 import shop.core.enums.OrderSource;
 
-public class JMSShopChannel implements ShopChannel<Pet> {
+public class JMSShopChannel implements ShopChannel {
 
 	private static boolean isShopClosed = false;
 	

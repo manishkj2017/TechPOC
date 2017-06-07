@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ImportResource;
 
 @Configuration
 @ComponentScan("shop")
-@ImportResource({"classpath:/jpaContext.xml"})
+@ImportResource({"jpaContext.xml"})
 public class ApplicationConfig {
 
 }

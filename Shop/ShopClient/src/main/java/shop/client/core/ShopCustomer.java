@@ -35,7 +35,7 @@ public class ShopCustomer extends Thread{
 	public void run(){
 		
 		try {
-			ShopChannel<Pet> shopChannel = this.getCustomerService().getCustomerInterfaceForPets(this.getShopChannel());
+			ShopChannel shopChannel = this.getCustomerService().getCustomerInterfaceForPets(this.getShopChannel());
 			
 			if(shopChannel.isShopClosed()){
 				ShopClientProperties.getShopLog().debug("[Customer " + this.getCustomerNumber() + "] : returning as shop is closed");

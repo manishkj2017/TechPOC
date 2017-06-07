@@ -79,7 +79,8 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+			<!-- shade plug in does not work nicely with spring classes and property files.. -->
+			<!-- <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>3.0.0</version>
@@ -115,6 +116,28 @@
 						        </filter>
 						    </filters>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin> -->
+			<!-- one-jar does not work for Spring jars -->
+			<plugin>
+				<groupId>com.jolira</groupId>
+				<artifactId>onejar-maven-plugin</artifactId>
+				<version>1.4.4</version>
+				<executions>
+					<execution>
+						<id>build-fatjar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>one-jar</goal>
+						</goals>
+						<configuration>
+							<mainClass>shop.server.shop.OpenShop</mainClass>
+							<onejarVersion>0.97</onejarVersion>
+							<attachToBuild>true</attachToBuild>
+							<filename>${project.artifactId}-${project.version}-onejar.jar</filename>
+						</configuration>
+						
 					</execution>
 				</executions>
 			</plugin>

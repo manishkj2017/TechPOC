@@ -3,33 +3,15 @@ package shop.core.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 
-@Entity
-@NamedQueries({
-	@NamedQuery(name=Pet.FIND_PET_SALE_SUMMARY, 
-			query="select p.name, o.orderSource, count(p.tag), 0, sum(p.price), 0, 0"
-					+ " from Pet p, PetOrder o where p.tag = o.petTag group by p.name, o.orderSource")
-					
-})
 public class Pet implements Serializable, Comparable<Pet>{
 
 	private static final long serialVersionUID = 1L;
-	public static final String FIND_PET_SALE_SUMMARY = "findPetSaleSummary";
-	
 
 	public Pet(){
 		
 	}
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
 	private String name;
 	private BigDecimal price;
 	private int tag;
@@ -37,14 +19,6 @@ public class Pet implements Serializable, Comparable<Pet>{
 	
 	private int customerNumber;
 	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -106,7 +80,6 @@ public class Pet implements Serializable, Comparable<Pet>{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + customerNumber;
-		result = prime * result + id;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + orderNumber;
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
@@ -124,8 +97,6 @@ public class Pet implements Serializable, Comparable<Pet>{
 			return false;
 		Pet other = (Pet) obj;
 		if (customerNumber != other.customerNumber)
-			return false;
-		if (id != other.id)
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -146,7 +117,7 @@ public class Pet implements Serializable, Comparable<Pet>{
 
 	@Override
 	public String toString() {
-		return "Pet [id=" + id + ", name=" + name + ", price=" + price
+		return "Pet [name=" + name + ", price=" + price
 				+ ", tag=" + tag + ", orderNumber=" + orderNumber
 				+ ", customerNumber=" + customerNumber + "]";
 	}

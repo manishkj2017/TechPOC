@@ -6,12 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import shop.core.domain.PetInventory;
+import shop.server.domain.PetInventoryEntity;
 
 @Repository
-public interface PetInventoryRepository extends JpaRepository<PetInventory, Integer>{
+public interface PetInventoryRepository extends JpaRepository<PetInventoryEntity, Integer>{
 	
-	@Query("select i from PetInventory i")
-	public List<PetInventory> getPetsInventory();
+	@Query("select i from PetInventoryEntity i")
+	public List<PetInventoryEntity> getPetsInventory();
 
 }

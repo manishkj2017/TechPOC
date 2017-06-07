@@ -9,5 +9,5 @@ import shop.core.enums.PetTypes;
 public interface CustomerService {
 	public BigDecimal getBidPrice();
 	public PetTypes getPetChoice();
-	public ShopChannel<Pet> getCustomerInterfaceForPets(String shopChannel);
+	public ShopChannel getCustomerInterfaceForPets(String shopChannel);
 }

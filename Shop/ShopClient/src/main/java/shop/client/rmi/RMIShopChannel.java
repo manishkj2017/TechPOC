@@ -8,7 +8,7 @@ import shop.core.domain.Pet;
 import shop.core.domain.PetOrder;
 import shop.core.enums.OrderSource;
 
-public class RMIShopChannel implements ShopChannel<Pet> {
+public class RMIShopChannel implements ShopChannel {
 
 	private static boolean isShopClosed = false;
 	@Override

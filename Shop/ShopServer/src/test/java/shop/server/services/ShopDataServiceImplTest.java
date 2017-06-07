@@ -131,7 +131,6 @@ public class ShopDataServiceImplTest extends TestCase{
 	
 	private Pet buildPet(int number, String petType){
 		Pet pet = new Pet();
-		pet.setId(number);
 		pet.setName(petType);
 		pet.setTag(number);
 		return pet;
@@ -140,7 +139,6 @@ public class ShopDataServiceImplTest extends TestCase{
 	private PetOrder buildPetOrder(int number, String orderSource, String petType, String status, BigDecimal bidPrice){
 		PetOrder order = new PetOrder();
 		order.setCustomerNumber(number);
-		order.setId(number);
 		order.setOrderNumber(number);
 		order.setOrderSource(orderSource);
 		order.setPetType(petType);

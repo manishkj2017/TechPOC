@@ -3,6 +3,9 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence_2_0.xsd"
 	version="2.0">
 	
-	<persistence-unit name="punit"></persistence-unit>
-
+	<persistence-unit name="punit">
+		<class>shop.server.domain.PetInventoryEntity</class>
+		<class>shop.server.domain.PetEntity</class>
+		<class>shop.server.domain.PetOrderEntity</class>
+	</persistence-unit>
 </persistence>

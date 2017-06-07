@@ -38,7 +38,7 @@ public class CustomeServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public ShopChannel<Pet> getCustomerInterfaceForPets(
+	public ShopChannel getCustomerInterfaceForPets(
 			String shopChannel) {
 		switch(shopChannel){
 			case "RMI":

@@ -6,7 +6,7 @@ import shop.core.domain.Pet;
 import shop.core.domain.PetOrder;
 import shop.core.enums.OrderSource;
 
-public class WEBShopChannel implements ShopChannel<Pet> {
+public class WEBShopChannel implements ShopChannel {
 
 	private static boolean isShopClosed = false;
 	@Override

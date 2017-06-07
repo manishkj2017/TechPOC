@@ -3,6 +3,7 @@ package shop.server.remote;
 import java.math.BigDecimal;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
@@ -20,6 +21,7 @@ import shop.core.enums.PetTypes;
 import shop.core.exceptions.InsufficientPriceException;
 import shop.core.remote.ShopInterface;
 import shop.server.core.ServiceManager;
+import shop.server.domain.PetInventoryEntity;
 
 @Component
 public class ShopInterfaceImpl extends UnicastRemoteObject implements ShopInterface {
@@ -135,7 +137,18 @@ public class ShopInterfaceImpl extends UnicastRemoteObject implements ShopInterf
 
 	@Override
 	public List<PetInventory> getPetsInventorySummary() throws RemoteException{
-		return this.getServiceManager().getDao().getPetsInventory();
+		List<PetInventoryEntity> inventoryEntities =  this.getServiceManager().getDao().getPetsInventory();
+		
+		List<PetInventory> inventories = new ArrayList<PetInventory> ();
+		inventoryEntities.forEach(ie -> {
+			PetInventory inventory = new PetInventory();
+			inventory.setPetType(ie.getPetType());
+			inventory.setStockAvailable(ie.getStockAvailable());
+			inventories.add(inventory);
+		});
+		
+		return inventories;
+		
 	}
 	
 	

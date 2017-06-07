@@ -3,29 +3,11 @@ package shop.core.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-
-@Entity
-@NamedQueries({
-	@NamedQuery(name=PetOrder.FIND_PET_ORDER_SUMMARY, 
-			query="select o.petType, o.orderSource, o.status, o.statusReason, count(o) "
-					+ "from PetOrder o group by o.petType, o.orderSource, o.status, o.statusReason")
-					
-})
 public class PetOrder implements Serializable, Comparable<PetOrder>{
 
 	
 	private static final long serialVersionUID = 1L;
-	public static final String FIND_PET_ORDER_SUMMARY = "findPetOrderSummary";
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
 	private BigDecimal bidPrice;
 	private String petType;
 	private String status;
@@ -36,15 +18,6 @@ public class PetOrder implements Serializable, Comparable<PetOrder>{
 	private String orderSource;
 	private int petTag;
 	
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public BigDecimal getBidPrice() {
 		return bidPrice;
 	}
@@ -140,7 +113,6 @@ public class PetOrder implements Serializable, Comparable<PetOrder>{
 		result = prime * result
 				+ ((customerName == null) ? 0 : customerName.hashCode());
 		result = prime * result + customerNumber;
-		result = prime * result + id;
 		result = prime * result + orderNumber;
 		result = prime * result
 				+ ((orderSource == null) ? 0 : orderSource.hashCode());
@@ -173,8 +145,6 @@ public class PetOrder implements Serializable, Comparable<PetOrder>{
 			return false;
 		if (customerNumber != other.customerNumber)
 			return false;
-		if (id != other.id)
-			return false;
 		if (orderNumber != other.orderNumber)
 			return false;
 		if (orderSource == null) {
@@ -204,7 +174,7 @@ public class PetOrder implements Serializable, Comparable<PetOrder>{
 
 	@Override
 	public String toString() {
-		return "PetOrder [id=" + id + ", bidPrice=" + bidPrice + ", petType="
+		return "PetOrder [bidPrice=" + bidPrice + ", petType="
 				+ petType + ", status=" + status + ", customerName="
 				+ customerName + ", customerNumber=" + customerNumber
 				+ ", orderNumber=" + orderNumber + ", statusReason="

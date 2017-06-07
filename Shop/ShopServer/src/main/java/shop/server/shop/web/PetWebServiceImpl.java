@@ -3,13 +3,10 @@ package shop.server.shop.web;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -24,6 +21,7 @@ import shop.core.domain.PetSaleSummaryData;
 import shop.core.enums.OrderStatus;
 import shop.core.enums.PetTypes;
 import shop.server.core.ShopServerProperties;
+import shop.server.domain.PetInventoryEntity;
 import shop.server.shop.OpenShop;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -104,7 +102,7 @@ public class PetWebServiceImpl implements PetWebService {
 		try{
 			List<PetSaleSummaryData> petSummaries = OpenShop.shop.getServiceManager().getDao().getPetSaleSummary();
 			List<PetOrderSummaryData> orderSummaries = OpenShop.shop.getServiceManager().getDao().getPetOrderSummary();
-			List<PetInventory> petInventory = OpenShop.shop.getServiceManager().getDao().getPetsInventory();
+			List<PetInventoryEntity> petInventory = OpenShop.shop.getServiceManager().getDao().getPetsInventory();
 			
 			buildSaleSummary(petSummaries, orderSummaries, petInventory);
 			
@@ -138,7 +136,7 @@ public class PetWebServiceImpl implements PetWebService {
 			petSummaries.forEach(System.out::println);
 			
 			List<PetOrderSummaryData> orderSummaries = OpenShop.shop.getServiceManager().getShopDataService().getPetOrderSummary();
-			List<PetInventory> petInventory = OpenShop.shop.getServiceManager().getDao().getPetsInventory();
+			List<PetInventoryEntity> petInventory = OpenShop.shop.getServiceManager().getDao().getPetsInventory();
 			
 			buildSaleSummary(petSummaries, orderSummaries, petInventory);
 			
@@ -156,14 +154,14 @@ public class PetWebServiceImpl implements PetWebService {
 	}
 	
 	private void buildSaleSummary(List<PetSaleSummaryData> petSummaries, 
-			List<PetOrderSummaryData> orderSummaries, List<PetInventory> petInventory){
+			List<PetOrderSummaryData> orderSummaries, List<PetInventoryEntity> petInventory){
 		
 		Map<String, Integer> petAvailableStock = new HashMap<String, Integer> ();
 		Map<String, Integer> petRejectedOrders = new HashMap<String, Integer> ();
 		
 		Map<String, Integer> petTotalSold = new HashMap<String, Integer> ();
 		
-		for(PetInventory i: petInventory){
+		for(PetInventoryEntity i: petInventory){
 			petAvailableStock.put(i.getPetType(), i.getStockAvailable());
 		}
 		

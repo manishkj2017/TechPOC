@@ -17,6 +17,9 @@ import shop.core.domain.PetInventory;
 import shop.core.domain.PetOrder;
 import shop.core.domain.PetOrderSummaryData;
 import shop.core.domain.PetSaleSummaryData;
+import shop.server.domain.PetEntity;
+import shop.server.domain.PetInventoryEntity;
+import shop.server.domain.PetOrderEntity;
 
 @Repository
 public class PetDBInterfaceImpl implements PetDBInterface {
@@ -35,7 +38,8 @@ public class PetDBInterfaceImpl implements PetDBInterface {
 	@Override
 	public void insertOrder(PetOrder order) {
 		////this is an example of using plain jpa
-		em.persist(order);
+		PetOrderEntity entity = new PetOrderEntity(order);
+		em.persist(entity);
 		em.flush();
 
 	}
@@ -44,7 +48,7 @@ public class PetDBInterfaceImpl implements PetDBInterface {
 	@Override
 	public void insertPet(Pet pet) {
 		//this is an example of using Spring data jpa instead of plain jpa
-		petRepository.save(pet);
+		petRepository.save(new PetEntity(pet));
 		
 		//below is the approach without Spring data jpa
 		//em.persist(pet);
@@ -56,7 +60,8 @@ public class PetDBInterfaceImpl implements PetDBInterface {
 	@Override
 	public void insertInventory(PetInventory inventory) {
 		//this is an example of using Spring data jpa instead of plain jpa
-		petInventory.saveAndFlush(inventory);
+		PetInventoryEntity entity = new PetInventoryEntity(inventory);
+		petInventory.saveAndFlush(entity);
 		
 		//below is the approach without Spring data jpa
 		//em.persist(inventory);
@@ -67,7 +72,7 @@ public class PetDBInterfaceImpl implements PetDBInterface {
 	@Override
 	public int countOrders(String source, String status, String subStatus) {
 		Query query = em.createQuery("select count(o) "
-				+ "from PetOrder o where o.orderSource=:source and o.status=:status and o.statusReason=:substatus");
+				+ "from PetOrderEntity o where o.orderSource=:source and o.status=:status and o.statusReason=:substatus");
 		query.setParameter("source", source);
 		query.setParameter("status", status);
 		query.setParameter("substatus", subStatus);
@@ -76,12 +81,14 @@ public class PetDBInterfaceImpl implements PetDBInterface {
 
 	@Override
 	public Pet getPet(int tag) {
-		return em.find(Pet.class, tag);
+		PetEntity petEntity =  em.find(PetEntity.class, tag);
+		return petEntity.returnPet();
+		
 	}
 
 	@Override
 	public int countPets(String petType) {
-		Query query = em.createQuery("select count(p.tag) from Pet p where p.name =:petType ");
+		Query query = em.createQuery("select count(p.tag) from PetEntity p where p.name =:petType ");
 		query.setParameter("petType", petType);
 		Long count =  (Long)query.getSingleResult();
 		return count.intValue();
@@ -92,7 +99,7 @@ public class PetDBInterfaceImpl implements PetDBInterface {
 		
 		List<PetSaleSummaryData> saleSummaries = new ArrayList<PetSaleSummaryData>();
 
-		Query query = em.createNamedQuery(Pet.FIND_PET_SALE_SUMMARY);
+		Query query = em.createNamedQuery(PetEntity.FIND_PET_SALE_SUMMARY);
 		List <Object[]>resultList = query.getResultList();
 
 		for(int i=0; i< resultList.size(); i++){
@@ -111,10 +118,11 @@ public class PetDBInterfaceImpl implements PetDBInterface {
 	}
 
 	@Override
-	public List<PetInventory> getPetsInventory() {
+	public List<PetInventoryEntity> getPetsInventory() {
 		
 		//this is an example of using Spring data jpa instead of plain jpa for a customize query
-		return petInventory.getPetsInventory();
+		return  petInventory.getPetsInventory();
+		
 		
 		//below is the approach without Spring data jpa
 		/*List<PetInventory> inventory = new ArrayList <PetInventory> ();
@@ -129,7 +137,7 @@ public class PetDBInterfaceImpl implements PetDBInterface {
 	public List<PetOrderSummaryData> getPetOrderSummary() {
 		List<PetOrderSummaryData> orderSummaries = new ArrayList<PetOrderSummaryData>();
 		
-		Query query = em.createNamedQuery(PetOrder.FIND_PET_ORDER_SUMMARY);
+		Query query = em.createNamedQuery(PetOrderEntity.FIND_PET_ORDER_SUMMARY);
 		
 		List <Object[]>resultList = query.getResultList();
 
