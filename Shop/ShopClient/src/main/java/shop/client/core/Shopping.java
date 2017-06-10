@@ -28,6 +28,8 @@ public class Shopping {
 	private int rmiOrders = 0;
 	private int jmsOrders = 0;
 	private int webOrders = 0;
+	private static boolean allowJMS = true;
+	private static boolean allowRMI = true;
 	
 	public static void main(String args[]){
 		
@@ -39,6 +41,14 @@ public class Shopping {
 		if(System.getProperty(SystemProperties.JMSHostName) != null){
 			ShopClientProperties.setJmshostname(System.getProperty(SystemProperties.JMSHostName));
 			System.out.println(ShopClientProperties.getJMSBrokerUrl());
+		}
+		
+		if("false".equals(System.getProperty(SystemProperties.AllowJMS))){
+			allowJMS = false;
+		}
+		
+		if("false".equals(System.getProperty(SystemProperties.AllowRMI))){
+			allowRMI = false;
 		}
 		
 		Shopping shopping = new Shopping();
@@ -151,10 +161,16 @@ public class Shopping {
 		switch(channelNumber){
 		
 		case 0:
-			return OrderSource.JMS.name();
+			if(allowJMS)
+				return OrderSource.JMS.name();
+			else
+				return OrderSource.WEB.name();
 		
 		case 1:
-			return OrderSource.RMI.name();
+			if(allowRMI)
+				return OrderSource.RMI.name();
+			else
+				return OrderSource.WEB.name();
 			
 		case 2:
 			return OrderSource.WEB.name();

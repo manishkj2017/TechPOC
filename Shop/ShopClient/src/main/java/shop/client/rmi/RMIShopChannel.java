@@ -33,6 +33,7 @@ public class RMIShopChannel implements ShopChannel {
 			}
 			return RMISetup.getRemoteShop().isShopClosed(); //try remote call
 		}catch(RemoteException e){
+			ShopClientProperties.getRMILog().debug(e.getMessage());
 			ShopClientProperties.getRMILog().debug("Remote request failed - shop has closed probably");
 			isShopClosed = true;
 			

@@ -23,7 +23,8 @@ public class SystemProperties {
 	public static final String WEBHostName = "WebHostName";
 	public static final String JMSHostName = "JmsHostName";
 	public static final String RMIHostName = "RmiHostName";
-	
+	public static final String AllowJMS = "allowJMS";
+	public static final String AllowRMI = "allowRMI";
 	
 	
 	public SystemProperties(InputStream stream){
