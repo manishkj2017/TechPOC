@@ -34,7 +34,7 @@ public class StartH2DB extends Thread{
 	}
 	
 	private static void openH2Console(){
-		String params[] = new String[3];
+		String params[] = new String[4];
 		params[0] = "-web";
 		params[1] = "-webAllowOthers";
 		params[2] = "-properties";
