@@ -15,6 +15,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import shop.client.config.ApplicationConfig;
 import shop.client.jms.JMSSetup;
 import shop.core.bootstrap.StartJMSBroker;
+import shop.core.bootstrap.SystemProperties;
 import shop.core.enums.OrderSource;
 
 public class Shopping {
@@ -29,6 +30,17 @@ public class Shopping {
 	private int webOrders = 0;
 	
 	public static void main(String args[]){
+		
+		if(System.getProperty(SystemProperties.WEBHostName) != null){
+			ShopClientProperties.setWebhostname(System.getProperty(SystemProperties.WEBHostName));
+			System.out.println(ShopClientProperties.getPetWebServiceURL());
+			System.out.println(ShopClientProperties.getShopCloseWebServiceURL());
+		}
+		if(System.getProperty(SystemProperties.JMSHostName) != null){
+			ShopClientProperties.setJmshostname(System.getProperty(SystemProperties.JMSHostName));
+			System.out.println(ShopClientProperties.getJMSBrokerUrl());
+		}
+		
 		Shopping shopping = new Shopping();
 		shopping.bootStraping();
 		shopping.startShopping();
@@ -127,7 +139,7 @@ public class Shopping {
 	 
 
 	private void bootStraping(){
-		StartJMSBroker.startBroker(false, ShopClientProperties.getProperties().getJMSBrokerUrl());
+		StartJMSBroker.startBroker(false, ShopClientProperties.getJMSBrokerUrl());
 		try {
 			JMSSetup.initJMS();
 		} catch (JMSException e) {

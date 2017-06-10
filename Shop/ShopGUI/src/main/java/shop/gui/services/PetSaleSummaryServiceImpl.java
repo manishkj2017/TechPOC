@@ -29,7 +29,7 @@ public class PetSaleSummaryServiceImpl implements PetSaleSummaryService {
 			return petSummaries;
 		}*/
 		
-		WebTarget target = client.target(ShopGUIProperties.getProperties().getPetSaleSummaryWebServiceURL());
+		WebTarget target = client.target(ShopGUIProperties.getPetSaleSummaryWebServiceURL());
 		
 		try{
 			Response response = target.request().get();

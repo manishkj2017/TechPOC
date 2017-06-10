@@ -25,7 +25,7 @@ public class JMSSetup extends CoreJMSService{
 	}
 
 	public static void initJMS() throws JMSException {
-		CoreJMSService.initJMS(new JSONTransformer(), ShopClientProperties.getProperties().getJMSBrokerUrl());
+		CoreJMSService.initJMS(new JSONTransformer(), ShopClientProperties.getJMSBrokerUrl());
 		createProducers();
 		createConsumers();
 		

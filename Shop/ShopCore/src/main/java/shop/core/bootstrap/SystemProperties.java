@@ -6,7 +6,6 @@ import java.util.Properties;
 
 public class SystemProperties {
 	public Properties props;
-	private static final String JMSBrokerUrl = "JMSBrokerUrl";
 	private static final String PetStorePath = "PetStore";
 	private static final String PetOrdeFile = "PetOrderFile";
 	private static final String PetSaleFile = "PetSaleFile";
@@ -20,6 +19,11 @@ public class SystemProperties {
 	private static final String MaxBidPriceOffset = "MaxBidPriceOffset";
 	private static final String MaxCustomers = "MaxCustomers";
 	private static final String PetSaleSummaryWebServiceURL ="PetSaleSummaryWebServiceURL";
+	private static final String JMSPort = "JMSPort";
+	public static final String WEBHostName = "WebHostName";
+	public static final String JMSHostName = "JmsHostName";
+	public static final String RMIHostName = "RmiHostName";
+	
 	
 	
 	public SystemProperties(InputStream stream){
@@ -36,10 +40,6 @@ public class SystemProperties {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	public String getJMSBrokerUrl(){
-		return props.getProperty(JMSBrokerUrl);
 	}
 	
 	public String getPetStorePath(){
@@ -90,5 +90,9 @@ public class SystemProperties {
 	
 	public String getPetSaleSummaryWebServiceURL(){
 		return props.getProperty(PetSaleSummaryWebServiceURL);
+	}
+	
+	public String getJMSPort(){
+		return props.getProperty(JMSPort);
 	}
 }
