@@ -1,0 +1,69 @@
+node {
+    
+    //notify('Build started')
+    try{
+        stage 'checkout'
+        git 'https://github.com/manishkj2017/TechPOC.git'
+        //checkout scm
+
+        def project_path = "Shop"
+        dir(project_path) {
+            stage 'compiling code, test and packging'
+            bat 'mvn clean package'
+            
+            
+            
+            stage 'Reports'
+            junit '**/target/surefire-reports/TEST-*.xml'            
+            
+            //this is another way - just for information
+            //step([$class: 'JUnitResultArchiver',
+              //      testResults: '**/target/surefire-reports/TEST-*.xml'])
+            jacoco classPattern: '**/target/classes', execPattern: '**/target/**.exec'
+            
+            stage 'archiving artifacts'
+            step([$class: 'ArtifactArchiver', 
+                    artifacts: "**/target/*.jar, **/target/*.war"]
+                    )
+            
+            stash name:'mastershop',
+                includes: '**'
+        }
+        //notify('Completed')
+    }catch (err) {
+        //notify("Error : ${err}")
+        currentBuild.result = 'FAILURE'
+    }
+}
+input 'Deploy to staging?'
+
+stage name: 'Deploy', concurrency: 1
+
+node('win-agent-1'){
+    bat 'dir'
+    def project_path = "Shop"
+        dir("$project_path") {
+            unstash 'mastershop'
+            bat ''' copy ShopServer\\target\\*.jar C:\\manish\\Development\\staging\\ShopServer\\.
+                    copy ShopClient\\target\\*.jar C:\\manish\\Development\\staging\\ShopClient\\.
+                    copy ShopServer\\target\\*onejar.jar C:\\manish\\Development\\docker\\ShopServer\\.
+                    copy ShopClient\\target\\*onejar.jar C:\\manish\\Development\\docker\\ShopClient\\.
+                    for /r %%F in (target\\*.war) do copy %%F C:\\manish\\Development\\staging
+                    copy ShopGUI\\target\\*.war C:\\manish\\Development\\docker\\ShopGUI\\webapps\\.
+                    del /q C:\\manish\\Development\\staging\\ShopServer\\dependency\\.
+                    del /q C:\\manish\\Development\\staging\\ShopClient\\dependency\\.
+                    xcopy /E /y /q ShopServer\\target\\dependency C:\\manish\\Development\\staging\\ShopServer\\dependency\\.
+                    xcopy /E /y /q ShopClient\\target\\dependency C:\\manish\\Development\\staging\\ShopClient\\dependency\\.'''
+        }
+}
+
+def notify(status){
+    emailext(  
+             subject: "Shop Jenkins Build - ${status} : Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]", 
+             to: 'manishkj2006@gmail.com',
+             body: "<p>Check Console output at <a href='${env.BUILD_URL}'></a></p>"
+
+    )
+}
+
+
