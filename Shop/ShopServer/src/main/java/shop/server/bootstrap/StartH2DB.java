@@ -11,7 +11,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 public class StartH2DB extends Thread{
 
-	private static final String propertyFile = "/Users/jainmanishkumar/Documents/webservices";
+	private static final String propertyFile = System.getProperty("user.home") + "/Development";
 	public DataSource createDataSource(){
 		
 		System.out.println("initializing H2 DB in memory...");
@@ -34,10 +34,11 @@ public class StartH2DB extends Thread{
 	}
 	
 	private static void openH2Console(){
-		String params[] = new String[3];
+		String params[] = new String[4];
 		params[0] = "-web";
-		params[1] = "-properties";
-		params[2] = propertyFile;
+		params[1] = "-webAllowOthers";
+		params[2] = "-properties";
+		params[3] = propertyFile;
 		
 		try {
 			Console.main(params);

@@ -15,6 +15,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import shop.client.config.ApplicationConfig;
 import shop.client.jms.JMSSetup;
 import shop.core.bootstrap.StartJMSBroker;
+import shop.core.bootstrap.SystemProperties;
 import shop.core.enums.OrderSource;
 
 public class Shopping {
@@ -27,8 +28,29 @@ public class Shopping {
 	private int rmiOrders = 0;
 	private int jmsOrders = 0;
 	private int webOrders = 0;
+	private static boolean allowJMS = true;
+	private static boolean allowRMI = true;
 	
 	public static void main(String args[]){
+		
+		if(System.getProperty(SystemProperties.WEBHostName) != null){
+			ShopClientProperties.setWebhostname(System.getProperty(SystemProperties.WEBHostName));
+			System.out.println(ShopClientProperties.getPetWebServiceURL());
+			System.out.println(ShopClientProperties.getShopCloseWebServiceURL());
+		}
+		if(System.getProperty(SystemProperties.JMSHostName) != null){
+			ShopClientProperties.setJmshostname(System.getProperty(SystemProperties.JMSHostName));
+			System.out.println(ShopClientProperties.getJMSBrokerUrl());
+		}
+		
+		if("false".equals(System.getProperty(SystemProperties.AllowJMS))){
+			allowJMS = false;
+		}
+		
+		if("false".equals(System.getProperty(SystemProperties.AllowRMI))){
+			allowRMI = false;
+		}
+		
 		Shopping shopping = new Shopping();
 		shopping.bootStraping();
 		shopping.startShopping();
@@ -127,7 +149,7 @@ public class Shopping {
 	 
 
 	private void bootStraping(){
-		StartJMSBroker.startBroker(false, ShopClientProperties.getProperties().getJMSBrokerUrl());
+		StartJMSBroker.startBroker(false, ShopClientProperties.getJMSBrokerUrl());
 		try {
 			JMSSetup.initJMS();
 		} catch (JMSException e) {
@@ -139,10 +161,16 @@ public class Shopping {
 		switch(channelNumber){
 		
 		case 0:
-			return OrderSource.JMS.name();
+			if(allowJMS)
+				return OrderSource.JMS.name();
+			else
+				return OrderSource.WEB.name();
 		
 		case 1:
-			return OrderSource.RMI.name();
+			if(allowRMI)
+				return OrderSource.RMI.name();
+			else
+				return OrderSource.WEB.name();
 			
 		case 2:
 			return OrderSource.WEB.name();

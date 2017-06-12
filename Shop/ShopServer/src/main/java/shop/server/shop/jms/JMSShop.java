@@ -9,7 +9,7 @@ public class JMSShop extends Thread{
 	
 	@Override
 	public void run(){
-		StartJMSBroker.startBroker(true, ShopServerProperties.getProperties().getJMSBrokerUrl());
+		StartJMSBroker.startBroker(true, ShopServerProperties.getJMSBrokerUrl());
 		
 		try {
 			SetupJMS.initJMS();

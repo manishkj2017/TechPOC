@@ -16,6 +16,7 @@ public class RMISetup {
 			if(shopInterface == null){
 				Registry registry = LocateRegistry.getRegistry(ShopClientProperties.getProperties().getRMIPort());
 				shopInterface = (ShopInterface)registry.lookup(ShopClientProperties.getProperties().getShopRMIName());
+				System.out.println(shopInterface);
 			}
 			return shopInterface;
 		}catch(RemoteException | NotBoundException e){

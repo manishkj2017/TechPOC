@@ -83,4 +83,21 @@ public class CoreJMSService {
 		
 	}
 	
+	public static boolean isBrokerAlreadyRunning(String brokerURL) throws JMSException{
+		boolean isBrokerAlreadyRunning = true;
+		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerURL);
+		Connection connection = null;
+		
+		try{
+			connection = connectionFactory.createConnection();
+		}catch(JMSException j){
+			isBrokerAlreadyRunning = false;
+		}finally{
+			if(connection != null)
+				connection.close();
+		}
+		
+		return isBrokerAlreadyRunning;
+	}
+	
 }

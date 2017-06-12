@@ -29,7 +29,7 @@ public class PetSaleSummaryServiceImpl implements PetSaleSummaryService {
 			return petSummaries;
 		}*/
 		
-		WebTarget target = client.target(ShopGUIProperties.getProperties().getPetSaleSummaryWebServiceURL());
+		WebTarget target = client.target(ShopGUIProperties.getPetSaleSummaryWebServiceURL());
 		
 		try{
 			Response response = target.request().get();
@@ -52,7 +52,7 @@ public class PetSaleSummaryServiceImpl implements PetSaleSummaryService {
 	
 		try{
 			Client client  = ClientBuilder.newClient();
-			WebTarget target = client.target(ShopGUIProperties.getProperties().getShopCloseWebServiceURL());
+			WebTarget target = client.target(ShopGUIProperties.getShopCloseWebServiceURL());
 			Response response = target.request().get();
 			if(response.getStatusInfo().getStatusCode() == Status.SERVICE_UNAVAILABLE.getStatusCode()){
 				//isConnectionClosed = true;

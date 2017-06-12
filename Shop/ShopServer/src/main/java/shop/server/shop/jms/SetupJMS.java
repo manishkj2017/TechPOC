@@ -18,7 +18,7 @@ public class SetupJMS extends CoreJMSService{
 	private static int numberOfConsumers = 1;
 	
 	public static void initJMS() throws JMSException{
-		CoreJMSService.initJMS(null, ShopServerProperties.getProperties().getJMSBrokerUrl());
+		CoreJMSService.initJMS(null, ShopServerProperties.getJMSBrokerUrl());
 		createConsumers();
 		connection.start();
 		

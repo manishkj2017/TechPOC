@@ -14,7 +14,7 @@ public class StartJMSBroker {
 	public static void startBroker(boolean isShop, String brokerURL){
 		try{
 			
-			if(isBrokerAlreadyRunning(brokerURL)){
+			if(CoreJMSService.isBrokerAlreadyRunning(brokerURL)){
 				if(!isShop){
 					System.out.println("shop is open..");
 				}
@@ -39,20 +39,5 @@ public class StartJMSBroker {
 		}
 	}
 	
-	private static boolean isBrokerAlreadyRunning(String brokerURL) throws JMSException{
-		boolean isBrokerAlreadyRunning = true;
-		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(brokerURL);
-		Connection connection = null;
-		
-		try{
-			connection = connectionFactory.createConnection();
-		}catch(JMSException j){
-			isBrokerAlreadyRunning = false;
-		}finally{
-			if(connection != null)
-				connection.close();
-		}
-		
-		return isBrokerAlreadyRunning;
-	}
+	
 }

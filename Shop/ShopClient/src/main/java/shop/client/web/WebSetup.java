@@ -26,7 +26,7 @@ public class WebSetup {
 			return;
 		}
 		
-		WebTarget target = client.target(ShopClientProperties.getProperties().getPetWebServiceURL());
+		WebTarget target = client.target(ShopClientProperties.getPetWebServiceURL());
 		ObjectMapper mapper = new ObjectMapper();
 		String orderJson = "";
 		
@@ -49,7 +49,7 @@ public class WebSetup {
 	public static boolean isShopClosed(){
 		
 		Client client  = ClientBuilder.newClient();
-		WebTarget target = client.target(ShopClientProperties.getProperties().getShopCloseWebServiceURL());
+		WebTarget target = client.target(ShopClientProperties.getShopCloseWebServiceURL());
 		Response response = target.request().get();
 		if(response.getStatusInfo().getStatusCode() == Status.SERVICE_UNAVAILABLE.getStatusCode()){
 			return true;
