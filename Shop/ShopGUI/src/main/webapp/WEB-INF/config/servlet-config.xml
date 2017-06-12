@@ -9,7 +9,7 @@
 
 	
 	<mvc:annotation-driven/>
-	<context:component-scan base-package="shop.gui, shop.core.dao"></context:component-scan>
+	<context:component-scan base-package="shop.gui"></context:component-scan>
 	
 	<mvc:resources location="/resources/css/" mapping="/resources/**"/>
 	<mvc:resources location="/resources/images/" mapping="/resources/**"/>
