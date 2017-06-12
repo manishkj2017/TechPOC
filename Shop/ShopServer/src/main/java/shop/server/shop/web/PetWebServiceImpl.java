@@ -3,18 +3,23 @@ package shop.server.shop.web;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jms.JMSException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.springframework.stereotype.Service;
 
+import shop.core.bootstrap.CoreJMSService;
 import shop.core.domain.Pet;
-import shop.core.domain.PetInventory;
 import shop.core.domain.PetOrder;
 import shop.core.domain.PetOrderSummaryData;
 import shop.core.domain.PetSaleSummaryData;
@@ -214,6 +219,27 @@ public class PetWebServiceImpl implements PetWebService {
 		}
 		
 		Collections.sort(petSummaries);
+	}
+
+	@Override
+	public Response isServiceUp() {
+		boolean good_health = true;
+		try {
+			if(!CoreJMSService.isBrokerAlreadyRunning(ShopServerProperties.getJMSBrokerUrl()))
+				good_health = false;
+			
+			Registry registry = LocateRegistry.getRegistry(ShopServerProperties.getProperties().getRMIPort());
+			if(registry.lookup(ShopServerProperties.getProperties().getShopRMIName()) == null)
+				good_health = false;
+			
+			if(good_health)
+				return Response.ok().build();
+			else
+				return Response.serverError().build();
+		} catch (JMSException | RemoteException | NotBoundException e) {
+			System.out.println("health check failed for JMS" + e.getMessage());
+			return Response.serverError().build();
+		}
 	}
 
 }

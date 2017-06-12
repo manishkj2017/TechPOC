@@ -33,4 +33,8 @@ public interface PetWebService {
 	@GET
 	@Path("/pet/salesummarycache")
 	public Response getPetSaleSummaryFromCache();
+	
+	@GET
+	@Path("/pet/ping/")
+	public Response isServiceUp();
 }
