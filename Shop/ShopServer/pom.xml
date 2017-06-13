@@ -25,7 +25,8 @@
   
   
   <build>
- 		<plugins>
+  		
+		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -45,6 +46,54 @@
 									</includes>
 								</fileset>
 							</filesets>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- this plug in to load property file based on build parameter -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<id>load-props</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<files>
+								<file>${basedir}/src/main/resources/profiles/${build.profile.id}/build.properties</file>
+							</files>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- this plug in is to replace tokens in selected property files based on loaded properties above -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<executions>
+					<execution>
+						<id>apply-props</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<overwrite>true</overwrite>
+							<outputDirectory>${basedir}/src/main/resources/generated</outputDirectory>
+							<resources>
+								<resource>
+								<directory>${basedir}/src/main/resources/profiles</directory>
+									<includes>
+										<include>datasource.properties</include>
+									</includes>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>
@@ -164,54 +213,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- this plug in to load property file based on build parameter -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>properties-maven-plugin</artifactId>
-				<version>1.0.0</version>
-				<executions>
-					<execution>
-						<id>load-props</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>read-project-properties</goal>
-						</goals>
-						<configuration>
-							<files>
-								<file>${basedir}/src/main/resources/profiles/${build.profile.id}/build.properties</file>
-							</files>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- this plug in is to replace tokens in selected property files based on loaded properties above -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.0.2</version>
-				<executions>
-					<execution>
-						<id>apply-props</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<overwrite>true</overwrite>
-							<outputDirectory>${basedir}/src/main/resources/generated</outputDirectory>
-							<resources>
-								<resource>
-								<directory>${basedir}/src/main/resources/profiles</directory>
-									<includes>
-										<include>datasource.properties</include>
-									</includes>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			
 			<plugin>
           		<groupId>org.apache.maven.plugins</groupId>
           		<artifactId>maven-surefire-plugin</artifactId>
