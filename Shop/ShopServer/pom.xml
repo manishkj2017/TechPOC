@@ -25,7 +25,7 @@
   
   
   <build>
-		<plugins>
+ 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
@@ -39,7 +39,7 @@
 						<configuration>
 							<filesets>
 								<fileset>
-									<directory>${basedir}/src/main/generated-resources</directory>
+									<directory>${basedir}/src/main/resources/generated</directory>
 									<includes>
 										<include>**</include>
 									</includes>
@@ -198,7 +198,7 @@
 						</goals>
 						<configuration>
 							<overwrite>true</overwrite>
-							<outputDirectory>${basedir}/src/main/generated-resources</outputDirectory>
+							<outputDirectory>${basedir}/src/main/resources/generated</outputDirectory>
 							<resources>
 								<resource>
 								<directory>${basedir}/src/main/resources/profiles</directory>
