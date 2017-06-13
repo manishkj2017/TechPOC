@@ -16,6 +16,12 @@
 	
 	<jpa:repositories base-package="shop.server.dao"/>
 	
+	<bean id="propertyHolder" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>datasource.properties</value>
+		</property>
+	</bean>
+	
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"></bean>
 
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -28,8 +34,8 @@
 		</property>
 		<property name="jpaPropertyMap">
 			<map>
-				<entry key="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-				<entry key="hibernate.hbm2ddl.auto" value="create"/>	
+				<entry key="hibernate.dialect" value="${hibernate_dialect}"/>
+				<entry key="hibernate.hbm2ddl.auto" value="${hibernate_hbm2ddl_auto_mode}"/>	
 				<entry key="hibernate.format_sql" value="true"/>		
 			</map>
 		</property>
@@ -41,11 +47,11 @@
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.h2.Driver"></property>
+		<property name="driverClassName" value="${driver_class}"></property>
 	<!-- 	<property name="url" value="jdbc:h2:~/shop;DB_CLOSE_ON_EXIT=TRUE;FILE_LOCK=NO"></property> -->
 	<!-- auto server mode allows multiple JVMs to connect to same in memory DB, file lock no option does not work for this issue -->
-	 	<property name="url" value="jdbc:h2:~/shop;AUTO_SERVER=TRUE"></property>
-		<property name="username" value="sa"></property>
-		<property name="password" value=""></property>
+	 	<property name="url" value="${datasource_url}"></property>
+		<property name="username" value="${datasource_username}"></property>
+		<property name="password" value="${datasource_password}"></property>
 	</bean>
 </beans>
