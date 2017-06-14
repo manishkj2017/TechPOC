@@ -235,10 +235,10 @@ public class PetWebServiceImpl implements PetWebService {
 			if(good_health)
 				return Response.ok().build();
 			else
-				return Response.serverError().build();
+				return Response.status(Status.SERVICE_UNAVAILABLE).build();
 		} catch (JMSException | RemoteException | NotBoundException e) {
 			System.out.println("health check failed for JMS" + e.getMessage());
-			return Response.serverError().build();
+			return Response.status(Status.SERVICE_UNAVAILABLE).build();
 		}
 	}
 

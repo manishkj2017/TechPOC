@@ -1,5 +1,6 @@
 package shop.client.web;
 
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -55,5 +56,22 @@ public class WebSetup {
 			return true;
 		}else
 			return false;
+	}
+	
+	public static boolean isShopReady(){
+		try{
+			Client client  = ClientBuilder.newClient();
+			WebTarget target = client.target(ShopClientProperties.getShopReadyCheckURL());
+			Response response = target.request().get();
+			System.out.println(response.getStatusInfo().getStatusCode());
+			if(response.getStatusInfo().getStatusCode() == Status.OK.getStatusCode()){
+				return true;
+			}else{
+				return false;
+			}
+		}catch(ProcessingException c){
+			return false;
+		}
+		
 	}
 }

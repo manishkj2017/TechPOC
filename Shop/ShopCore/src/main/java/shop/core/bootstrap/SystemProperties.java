@@ -11,15 +11,20 @@ public class SystemProperties {
 	private static final String PetSaleFile = "PetSaleFile";
 	private static final String PetInventoryFile = "PetInventoryFile";
 	private static final String PetMaxInventorySize = "PetMaxInventorySize";
+	
+	private static final String JMSPort = "JMSPort";
 	private static final String RMIPort = "RMIPort";
 	private static final String WEBPort = "WEBPort";
 	private static final String ShopRMIName = "ShopRMIName";
 	private static final String PetWebServiceURL = "PetWebServiceURL";
 	private static final String ShopCloseWebServiceURL = "ShopCloseWebServiceURL";
+	private static final String PetSaleSummaryWebServiceURL ="PetSaleSummaryWebServiceURL";
+	private static final String ShopReadyCheckURL ="ShopReadyCheckURL";
+	
 	private static final String MaxBidPriceOffset = "MaxBidPriceOffset";
 	private static final String MaxCustomers = "MaxCustomers";
-	private static final String PetSaleSummaryWebServiceURL ="PetSaleSummaryWebServiceURL";
-	private static final String JMSPort = "JMSPort";
+	
+	
 	public static final String WEBHostName = "WebHostName";
 	public static final String JMSHostName = "JmsHostName";
 	public static final String RMIHostName = "RmiHostName";
@@ -79,6 +84,10 @@ public class SystemProperties {
 	}
 	public String getShopCloseWebServiceURL(){
 		return props.getProperty(ShopCloseWebServiceURL);
+	}
+	
+	public String getShopReadyCheckURL(){
+		return props.getProperty(ShopReadyCheckURL);
 	}
 	
 	public int getMaxBidPriceOffset(){

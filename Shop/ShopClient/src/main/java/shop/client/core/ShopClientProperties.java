@@ -45,6 +45,10 @@ public class ShopClientProperties {
 		return "http://" + getWebhostname() + ":" + properties.getWEBPort() + properties.getShopCloseWebServiceURL();
 	}
 	
+	public static String getShopReadyCheckURL(){
+		return "http://" + getWebhostname() + ":" + properties.getWEBPort() + properties.getShopReadyCheckURL();
+	}
+	
 	public static String getJMSBrokerUrl(){
 		return "tcp://" + getJmshostname() + ":" + properties.getJMSPort();
 	}

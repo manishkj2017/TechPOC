@@ -14,6 +14,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import shop.client.config.ApplicationConfig;
 import shop.client.jms.JMSSetup;
+import shop.client.web.WebSetup;
 import shop.core.bootstrap.StartJMSBroker;
 import shop.core.bootstrap.SystemProperties;
 import shop.core.enums.OrderSource;
@@ -32,28 +33,34 @@ public class Shopping {
 	private static boolean allowRMI = true;
 	
 	public static void main(String args[]){
-		
-		if(System.getProperty(SystemProperties.WEBHostName) != null){
-			ShopClientProperties.setWebhostname(System.getProperty(SystemProperties.WEBHostName));
-			System.out.println(ShopClientProperties.getPetWebServiceURL());
-			System.out.println(ShopClientProperties.getShopCloseWebServiceURL());
-		}
-		if(System.getProperty(SystemProperties.JMSHostName) != null){
-			ShopClientProperties.setJmshostname(System.getProperty(SystemProperties.JMSHostName));
-			System.out.println(ShopClientProperties.getJMSBrokerUrl());
-		}
-		
-		if("false".equals(System.getProperty(SystemProperties.AllowJMS))){
-			allowJMS = false;
-		}
-		
-		if("false".equals(System.getProperty(SystemProperties.AllowRMI))){
-			allowRMI = false;
-		}
-		
+
 		Shopping shopping = new Shopping();
+		shopping.setProperties();
+		
+		while (true){
+			if(shopping.isShopReady()){
+				//System.out.println("Shop is ready for shopping..");
+				break;
+			}
+			else{
+				System.out.println("waiting for shop to be fully ready..");
+				try {
+					Thread.sleep(30000);
+					
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		shopping.bootStraping();
 		shopping.startShopping();
+	}
+	
+	private boolean isShopReady(){
+		return WebSetup.isShopReady();
+		
 	}
 	
 	private void startShopping(){
@@ -107,6 +114,26 @@ public class Shopping {
 			executor.shutdown();
 		}
 		
+	}
+	
+	private void setProperties(){
+		if(System.getProperty(SystemProperties.WEBHostName) != null){
+			ShopClientProperties.setWebhostname(System.getProperty(SystemProperties.WEBHostName));
+			System.out.println(ShopClientProperties.getPetWebServiceURL());
+			System.out.println(ShopClientProperties.getShopCloseWebServiceURL());
+		}
+		if(System.getProperty(SystemProperties.JMSHostName) != null){
+			ShopClientProperties.setJmshostname(System.getProperty(SystemProperties.JMSHostName));
+			System.out.println(ShopClientProperties.getJMSBrokerUrl());
+		}
+		
+		if("false".equals(System.getProperty(SystemProperties.AllowJMS))){
+			allowJMS = false;
+		}
+		
+		if("false".equals(System.getProperty(SystemProperties.AllowRMI))){
+			allowRMI = false;
+		}
 	}
 	
 	private void noMoreCustomersPlease(int customerNumber) {
