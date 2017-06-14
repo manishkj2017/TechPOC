@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import shop.core.bootstrap.SystemProperties;
+import shop.core.enums.DatabaseTypes;
 import shop.core.remote.ShopInterface;
 import shop.server.bootstrap.StartH2DB;
 import shop.server.config.ApplicationConfig;
@@ -20,16 +21,12 @@ public class OpenShop {
 	
 	public static void main(String args[]){
 		
-		if(System.getProperty(SystemProperties.WEBHostName) != null){
-			ShopServerProperties.setWebhostname(System.getProperty(SystemProperties.WEBHostName));
-			
+		setProperties();
+		
+		if(DatabaseTypes.H2MEM.name().equalsIgnoreCase(System.getProperty(SystemProperties.database))){
+			//start H2 DB
+			new StartH2DB().start();
 		}
-		if(System.getProperty(SystemProperties.JMSHostName) != null){
-			ShopServerProperties.setJmshostname(System.getProperty(SystemProperties.JMSHostName));
-			System.out.println(ShopServerProperties.getJMSBrokerUrl());
-		}
-		//start H2 DB
-		new StartH2DB().start();
 		
 		//initialize spring application context
 		ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
@@ -51,5 +48,16 @@ public class OpenShop {
 		WebShop webShop = new WebShop(context);
 		webShop.start();
 		
+	}
+	
+	private static void setProperties(){
+		if(System.getProperty(SystemProperties.WEBHostName) != null){
+			ShopServerProperties.setWebhostname(System.getProperty(SystemProperties.WEBHostName));
+			
+		}
+		if(System.getProperty(SystemProperties.JMSHostName) != null){
+			ShopServerProperties.setJmshostname(System.getProperty(SystemProperties.JMSHostName));
+			System.out.println(ShopServerProperties.getJMSBrokerUrl());
+		}
 	}
 }

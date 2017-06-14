@@ -25,6 +25,8 @@ public class SystemProperties {
 	private static final String MaxCustomers = "MaxCustomers";
 	
 	
+	//command line properties
+	public static final String database = "database";
 	public static final String WEBHostName = "WebHostName";
 	public static final String JMSHostName = "JmsHostName";
 	public static final String RMIHostName = "RmiHostName";

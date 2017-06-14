@@ -190,6 +190,13 @@
     	<!-- <scope>provided</scope> -->
 	</dependency>
 	
+	<!-- mysql driver -->
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>5.1.6</version>
+	</dependency>
+	
 	<!--  validation framework (it is nothing to do with hibernate JPA) -->
 	<dependency>
     	<groupId>org.hibernate</groupId>
