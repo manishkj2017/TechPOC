@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+        mysql:
+                image: mysql
+                volumes:
+                        - /c/Users/manish/mysqldb:/var/lib/mysql
+                ports:
+                        - "3306:3306"
+        shop-server:
+                depends_on:
+                        - mysql
+                image: techpoc/shop-server-mysql
+                volumes:
+                        - /c/Users/manish/PetStore:/root/PetStore
+                network_mode: "host"
+
+        shop-client:
+                depends_on:
+                        - shop-server
+                image: techpoc/shop-client
+                volumes:
+                        - /c/Users/manish/PetClient:/root/PetClient
+                network_mode: "host"
+                healthcheck:
+                        test: ["CMD", "curl", "-f", "http://localhost:8081/pet-services/petWebService/pet/ping"]
+                        interval: 5s 
+                        timeout: 10s
+                        retries: 2
+
+        shop-gui:
+                depends_on:
+                        - shop-server
+                        - shop-client
+                image: techpoc/shop-gui
+                network_mode: "host" 
