@@ -2,7 +2,7 @@ version: '3'
 
 services:
         shop-server:
-                image: techpoc/shop-server
+                image: techpoc/shop-server-h2mem:1.0
                 volumes:
                         - /c/Users/manish/PetStore:/root/PetStore
                 network_mode: "host"
@@ -10,7 +10,7 @@ services:
         shop-client:
                 depends_on:
                         - shop-server
-                image: techpoc/shop-client
+                image: techpoc/shop-client:1.0
                 volumes:
                         - /c/Users/manish/PetClient:/root/PetClient
                 network_mode: "host"
@@ -24,5 +24,5 @@ services:
                 depends_on:
                         - shop-server
                         - shop-client
-                image: techpoc/shop-gui
+                image: techpoc/shop-gui:1.0
                 network_mode: "host" 
