@@ -1,0 +1,8 @@
+From centos
+RUN yum install -y java
+
+VOLUME /root/PetClient
+COPY /ShopClient-1.0-onejar.jar ShopClient.jar
+RUN sh -c 'touch /ShopClient.jar'
+ENTRYPOINT ["java", "-jar", "/ShopClient.jar"]
+

@@ -1,0 +1,6 @@
+From tomcat
+EXPOSE 8080
+VOLUME /root/PetStore
+COPY /webapps/ShopGUI.war ShopGUI.war
+RUN sh -c 'mv ShopGUI.war webapps/ShopGUI.war'
+

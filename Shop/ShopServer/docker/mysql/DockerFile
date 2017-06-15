@@ -1,0 +1,9 @@
+From centos
+RUN yum install -y java
+
+VOLUME /root/PetStore
+EXPOSE 8082 8081 61616 6666
+COPY /ShopServer-1.0-onejar.jar ShopServer.jar
+RUN sh -c 'touch /ShopServer.jar'
+ENTRYPOINT ["java", "-Ddatabase=mysql","-jar", "/ShopServer.jar"]
+
