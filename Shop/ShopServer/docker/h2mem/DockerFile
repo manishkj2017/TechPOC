@@ -5,5 +5,5 @@ VOLUME /root/PetStore
 EXPOSE 8082 8081 61616 6666
 COPY /ShopServer-1.0-onejar.jar ShopServer.jar
 RUN sh -c 'touch /ShopServer.jar'
-ENTRYPOINT ["java", "-jar", "/ShopServer.jar"]
+ENTRYPOINT ["java", "-Ddatabase=h2mem","-jar", "/ShopServer.jar"]
 
