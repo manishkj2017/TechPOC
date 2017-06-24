@@ -45,7 +45,7 @@ namespace ShopClientDotNet
             shopChannel.Order(createOrder());
         }
 
-        public int CustomerNumber { get => customerNumber; set => customerNumber = value; }
-        public string ShopChannel { get => shopChannel; set => shopChannel = value; }
+        public int CustomerNumber { get { return customerNumber; } set { this.customerNumber = value; } }
+        public string ShopChannel { get { return shopChannel; } set { this.shopChannel = value; } }
     }
 }
