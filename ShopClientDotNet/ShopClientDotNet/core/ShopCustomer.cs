@@ -33,23 +33,6 @@ namespace ShopClientDotNet
             return customerService;
         }
 
-        public void run(object callbackObject)
-        {
-            ShopCustomer customer = (ShopCustomer)callbackObject;
-            Console.WriteLine("customer - " + customer.CustomerNumber + " is shopping");
-            ShopChannel shopChannel = customer.getCustomerService().GetCustomerInterfaceForPets(customer.ShopChannel);
-            if (shopChannel.IsShopClosed())
-            {
-                Console.WriteLine("[Customer " + customer.CustomerNumber + "] : returning as shop is closed");
-                Shopping.ThreadCompleteCount++;
-                return;
-            }
-
-            //raise order
-            shopChannel.Order(customer.createOrder());
-            Shopping.ThreadCompleteCount++;
-        }
-
         public int CustomerNumber { get { return customerNumber; } set { this.customerNumber = value; } }
         public string ShopChannel { get { return shopChannel; } set { this.shopChannel = value; } }
     }

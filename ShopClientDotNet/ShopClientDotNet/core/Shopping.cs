@@ -13,7 +13,7 @@ namespace ShopClientDotNet
         public static bool isShopClosed = false;
         private Random shopChannelChoice = new Random();
         private const int maxCustomers = 1000; //need to move to property file
-        internal static volatile int ThreadCompleteCount = 0;
+        static volatile int ThreadCompleteCount = 0;
         
 
         static void Main(string[] args)
