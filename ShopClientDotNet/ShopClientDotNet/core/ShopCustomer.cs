@@ -7,13 +7,14 @@ using ShopClientDotNet.domain;
 
 namespace ShopClientDotNet
 {
-    class ShopCustomer
+    public class ShopCustomer
     {
         private CustomerService customerService = new CustomerServiceImpl();
         private int customerNumber = 0;
         private string shopChannel = "";
+        
 
-        private PetOrder createOrder()
+        public PetOrder createOrder()
         {
             PetOrder order = new PetOrder();
             Pets pet = this.getCustomerService().GetPetChoice();
@@ -27,22 +28,26 @@ namespace ShopClientDotNet
             return order;
         }
 
-        private CustomerService getCustomerService()
+        public CustomerService getCustomerService()
         {
             return customerService;
         }
 
-        public void run()
+        public void run(object callbackObject)
         {
-            ShopChannel shopChannel = this.getCustomerService().GetCustomerInterfaceForPets(this.ShopChannel);
+            ShopCustomer customer = (ShopCustomer)callbackObject;
+            Console.WriteLine("customer - " + customer.CustomerNumber + " is shopping");
+            ShopChannel shopChannel = customer.getCustomerService().GetCustomerInterfaceForPets(customer.ShopChannel);
             if (shopChannel.IsShopClosed())
             {
-                Console.WriteLine("[Customer " + this.CustomerNumber + "] : returning as shop is closed");
+                Console.WriteLine("[Customer " + customer.CustomerNumber + "] : returning as shop is closed");
+                Shopping.ThreadCompleteCount++;
                 return;
             }
 
             //raise order
-            shopChannel.Order(createOrder());
+            shopChannel.Order(customer.createOrder());
+            Shopping.ThreadCompleteCount++;
         }
 
         public int CustomerNumber { get { return customerNumber; } set { this.customerNumber = value; } }

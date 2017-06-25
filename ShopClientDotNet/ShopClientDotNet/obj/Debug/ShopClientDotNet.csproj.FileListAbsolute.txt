@@ -1,0 +1,6 @@
+C:\Users\manish\git\TechPOC\ShopClientDotNet\ShopClientDotNet\bin\Debug\ShopClientDotNet.exe.config
+C:\Users\manish\git\TechPOC\ShopClientDotNet\ShopClientDotNet\bin\Debug\ShopClientDotNet.exe
+C:\Users\manish\git\TechPOC\ShopClientDotNet\ShopClientDotNet\bin\Debug\ShopClientDotNet.pdb
+C:\Users\manish\git\TechPOC\ShopClientDotNet\ShopClientDotNet\obj\Debug\ShopClientDotNet.csprojResolveAssemblyReference.cache
+C:\Users\manish\git\TechPOC\ShopClientDotNet\ShopClientDotNet\obj\Debug\ShopClientDotNet.exe
+C:\Users\manish\git\TechPOC\ShopClientDotNet\ShopClientDotNet\obj\Debug\ShopClientDotNet.pdb
